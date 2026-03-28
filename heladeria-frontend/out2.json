@@ -1,0 +1,82 @@
+[
+  {
+    "id": "26411254-d5e8-4ac0-9db9-fac1ea605e9c",
+    "created_at": "2026-03-28T03:48:04.042313+00:00",
+    "cliente_nombre": "manuel",
+    "tipo_pedido": "agendado",
+    "fecha_entrega": "2026-04-23",
+    "hora_entrega": "19:49:00",
+    "productos": [
+      {
+        "id": "0464a48e-67ad-40d5-9336-ae7048c62926",
+        "foto": "https://placehold.co/150x150?text=Foto+Helado",
+        "activo": true,
+        "nombre": "Yogurt Fresa",
+        "precio": 70,
+        "cantidad": 1,
+        "categoria": "FRAPPE YOGURT"
+      },
+      {
+        "id": "41f30306-627f-4215-aaec-151776eca384",
+        "foto": "https://xcmxqnzulnmvaybpchzs.supabase.co/storage/v1/object/public/productos/1774620789080_IMG-20260327-WA0561.jpg",
+        "activo": true,
+        "nombre": "Fresas",
+        "precio": 60,
+        "cantidad": 1,
+        "categoria": "WAFFLES"
+      },
+      {
+        "id": "43417248-5453-4152-8e8c-1b306bca30aa",
+        "foto": "https://placehold.co/150x150?text=Foto+Helado",
+        "activo": true,
+        "nombre": "Mango",
+        "precio": 50,
+        "cantidad": 1,
+        "categoria": "SODA ITALIANA"
+      }
+    ],
+    "total": 180,
+    "estatus": "pendiente",
+    "cliente_telefono": "9994332865"
+  },
+  {
+    "id": "360da1ac-7abb-45ce-b0c1-a7af45bee4bb",
+    "created_at": "2026-03-28T02:42:03.802368+00:00",
+    "cliente_nombre": "Alexander",
+    "tipo_pedido": "agendado",
+    "fecha_entrega": "2026-04-16",
+    "hora_entrega": "21:49:00",
+    "productos": [
+      {
+        "id": "28488f51-9a14-4c48-8f68-f4710aa7d2be",
+        "foto": "https://xcmxqnzulnmvaybpchzs.supabase.co/storage/v1/object/public/productos/1774621379880_WhatsApp_Image_2026-03-28_at_07.17.08.jpeg",
+        "activo": true,
+        "nombre": "Frutas",
+        "precio": 65,
+        "cantidad": 1,
+        "categoria": "WAFFLES"
+      },
+      {
+        "id": "41f30306-627f-4215-aaec-151776eca384",
+        "foto": "https://xcmxqnzulnmvaybpchzs.supabase.co/storage/v1/object/public/productos/1774620789080_IMG-20260327-WA0561.jpg",
+        "activo": true,
+        "nombre": "Fresas",
+        "precio": 60,
+        "cantidad": 1,
+        "categoria": "WAFFLES"
+      },
+      {
+        "id": "220e9514-ee04-42e4-bc6f-d4e223447c14",
+        "foto": "https://xcmxqnzulnmvaybpchzs.supabase.co/storage/v1/object/public/productos/1774620897307_IMG-20260327-WA0553.jpg",
+        "activo": true,
+        "nombre": "Combinada",
+        "precio": 60,
+        "cantidad": 1,
+        "categoria": "WAFFLES"
+      }
+    ],
+    "total": 185,
+    "estatus": "pendiente",
+    "cliente_telefono": "9994969520"
+  }
+]

@@ -1,0 +1,641 @@
+<header class="navbar" [class.navbar-admin]="vistaActiva() === 'admin'">
+  <div class="logo-container">
+    <img src="/fotos/logo.jpg" alt="Logo Heladería Libertad" class="logo" onerror="this.style.display='none'">
+    <h1>Heladería_Libertad</h1>
+  </div>
+  @if (vistaActiva() !== 'admin') {
+  <nav class="links">
+    <a class="nav-pill" (click)="cambiarVista('inicio')" [class.activo]="vistaActiva() === 'inicio'">🏠 Inicio</a>
+    <a class="nav-pill nav-pill-cta" (click)="cambiarVista('menu')" [class.activo]="vistaActiva() === 'menu'">🍦 Hacer Pedido</a>
+  </nav>
+  }
+  @if (vistaActiva() === 'admin') {
+  <div class="admin-badge">
+    <span>👑 Modo Administrador</span>
+  </div>
+  }
+</header>
+
+@if (vistaActiva() === 'inicio') {
+
+<section id="inicio" class="hero-section">
+  <img src="/fotos/banner.jpg" alt="Banner Heladería" class="hero-bg" onerror="this.style.display='none'">
+
+  <div class="hero-contenido fondo-estrellado">
+    <h1>
+      <span class="texto-titulo">¿Nos has visitado?</span>
+      <span class="emojis-titulo">✨🍦</span>
+    </h1>
+    <p>Disfruta los mejores helados, frappés y postres en Timucuy.</p>
+
+    <button class="btn-primario hero-btn" (click)="cambiarVista('menu')">
+      Hacer Pedido Ahora
+    </button>
+  </div>
+</section>
+
+<section id="informacion" class="info-section">
+
+  <!-- Franja superior: título y texto descriptivo sobre fondo rosado -->
+  <div class="info-encabezado">
+    <p class="info-label">NUESTRA HELADERÍA</p>
+    <h2 class="info-titulo">Heladería_Libertad</h2>
+    <p class="info-texto">
+      Te ofrecemos la mejor calidad para satisfacer tus antojos: Postres, Helado, Paletas, Frappés, Smoothie, Fresas con
+      crema, Gomitas, Snacks y más.
+    </p>
+  </div>
+
+  <!-- Tarjetas de datos sueltas, flotando sobre el fondo de la página -->
+  <div class="info-cards-grid">
+
+    <div class="info-card">
+      <div class="icono-circular">🕒</div>
+      <h4>Horario de Atención</h4>
+      <p>Lunes a Domingo</p>
+      <strong>6:30 PM – 11:00 PM</strong>
+    </div>
+
+    <div class="info-card">
+      <div class="icono-circular">📍</div>
+      <h4>Ubicación</h4>
+      <p>Calle 21 #621 (Mercado Municipal)</p>
+      <strong>97377 Timucuy, Yuc.</strong>
+    </div>
+
+    <div class="info-card">
+      <div class="icono-circular">💬</div>
+      <h4>Pedidos por WhatsApp</h4>
+      <p>canul0257@gmail.com</p>
+      <strong>999 433 2865</strong>
+    </div>
+
+    <div class="info-card">
+      <div class="icono-circular">👍</div>
+      <h4>Redes Sociales</h4>
+      <p>Síguenos en Facebook</p>
+      <a href="https://www.facebook.com/share/1GiTcLWung/" target="_blank">Visita nuestra página →</a>
+    </div>
+
+  </div>
+
+</section>
+
+}
+
+@if (vistaActiva() === 'menu') {
+
+<section id="menu" class="menu-section">
+  <h2 class="titulo-apartado">Menú de Pedidos</h2>
+
+  <div class="paneles-container">
+    <div class="tabs-botones">
+      <button (click)="setTipoPedido(false)" [class.activo]="!esPedidoAgendado()">
+        <span class="icono-tab">🛍️</span> Para pasar HOY
+      </button>
+      <button (click)="setTipoPedido(true)" [class.activo]="esPedidoAgendado()">
+        <span class="icono-tab">📅</span> Agendar Fecha Especial
+      </button>
+    </div>
+
+    @if (!esPedidoAgendado()) {
+    <div class="panel-contenido panel-hoy">
+      <h3>Pedido para el día de hoy</h3>
+
+      @if (estaAbierta()) {
+      <div class="alerta-exito">
+        <strong>✅ ¡Estamos Abiertos!</strong><br>
+        Arma tu pedido y pasa por él. Por favor, dinos tu nombre:
+        <input type="text" placeholder="Ej. Alexander" (input)="actualizarDato('nombre', $event)"
+          style="margin-top: 10px;">
+      </div>
+      } @else {
+      <div class="alerta-error">
+        <strong>❌ Heladería Cerrada en este momento.</strong><br>
+        Nuestro horario es de 6:30 p.m. a 11:00 p.m. <br>
+        Aún puedes usar la pestaña "Agendar Fecha Especial" para un pedido futuro.
+      </div>
+      }
+    </div>
+    }
+
+    @if (esPedidoAgendado()) {
+    <div class="panel-contenido panel-agendar">
+      <h3 style="margin-bottom: 5px;">Agendar pedido para un evento</h3>
+      <p class="subtitulo-panel">Tus pedidos agendados quedarán "Pendientes de confirmación".</p>
+
+      <div class="paso-agenda">
+        <span class="paso-badge">1</span>
+        <p><strong>¡Hola! Regálanos tu nombre</strong> y cuéntanos, <strong>¿a qué hora sería tu pedido?</strong></p>
+      </div>
+
+      <div class="inputs-agenda premium-inputs">
+        <div class="input-group">
+          <label>👤 Tu Nombre o el del Festejado</label>
+          <input type="text" placeholder="Escribe aquí..." (input)="actualizarDato('nombre', $event)">
+        </div>
+        <div class="input-group">
+          <label>⏰ ¿A qué hora pasas por el?</label>
+          <select (change)="actualizarDato('hora', $event)">
+            <option value="" disabled selected>Elige una hora...</option>
+            <option value="18:30">6:30 PM</option>
+            <option value="19:00">7:00 PM</option>
+            <option value="19:30">7:30 PM</option>
+            <option value="20:00">8:00 PM</option>
+            <option value="20:30">8:30 PM</option>
+            <option value="21:00">9:00 PM</option>
+            <option value="21:30">9:30 PM</option>
+            <option value="22:00">10:00 PM</option>
+            <option value="22:30">10:30 PM</option>
+            <option value="23:00">11:00 PM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="paso-agenda" style="margin-top: 25px;">
+        <span class="paso-badge">2</span>
+        <p><strong>Selecciona el día</strong> que gustes agendar tu pedido en el siguiente calendario.</p>
+      </div>
+
+      <div class="calendario-custom">
+        <div class="cal-header">
+          <button (click)="cambiarMes(-1)">◀</button>
+          <h4>{{ nombreMes(mesReferencia()) }} {{ mesReferencia().getFullYear() }}</h4>
+          <button (click)="cambiarMes(1)">▶</button>
+        </div>
+
+        <div class="cal-dias-semana">
+          <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+        </div>
+
+        <div class="cal-grid">
+          @for (dia of diasCalendario(); track $index) {
+          @if (dia === null) {
+          <div class="dia-vacio"></div>
+          } @else {
+          <button class="dia-btn" [class.seleccionado]="esMismaFecha(dia, fechaSeleccionada())"
+            [class.pasado]="esFechaPasada(dia)" [class.bloqueado]="esFechaBloqueada(dia)" 
+            (click)="seleccionarFecha(dia)" [disabled]="esDiaInvalido(dia)">
+            {{ dia.getDate() }}
+          </button>
+          }
+          }
+        </div>
+      </div>
+
+      <div class="paso-agenda finalizado" style="margin-top: 25px;">
+        <span class="paso-badge">3</span>
+        <p>¡Listo! Ahora baja un poco y <strong>selecciona los mejores productos</strong> de nuestro menú. 👇</p>
+      </div>
+
+    </div>
+    }
+  </div>
+
+
+  <div class="filtros-container">
+    @for (cat of categorias(); track cat) {
+    <button (click)="seleccionarCategoria(cat)" [class.activo]="cat === categoriaSeleccionada()">
+      {{ cat }}
+    </button>
+    }
+  </div>
+
+  <p style="text-align: center; color: gray;">Mostrando {{ productosFiltrados().length }} productos</p>
+
+  <div class="catalogo-container">
+    @for (producto of productosFiltrados(); track producto.id) {
+    <div class="producto-card">
+      <img [src]="producto.foto || producto.imagen_url || 'https://via.placeholder.com/400x300/f9ecec/d81b60?text=🍦'" 
+        alt="{{ producto.nombre }}"
+        onerror="this.src='https://via.placeholder.com/400x300/f9ecec/d81b60?text=Libertad'">
+
+      <div class="producto-info">
+        <h4>{{ producto.nombre }}</h4>
+        <span class="tag-categoria">{{ producto.categoria }}</span>
+        <p class="precio">${{ producto.precio }}</p>
+        <p class="desc">{{ producto.descripcion }}</p>
+      </div>
+
+      <button class="btn-agregar" [disabled]="!esPedidoAgendado() && !estaAbierta()"
+        (click)="abrirPersonalizacion(producto)">
+        {{ (!esPedidoAgendado() && !estaAbierta()) ? 'Cerrado por ahora 🚫' : 'Agregar al Pedido' }}
+      </button>
+    </div>
+    }
+  </div>
+</section>
+
+}
+
+@if (vistaActiva() === 'admin') {
+<section class="admin-section">
+
+  @if (!estaAutenticadoAdmin()) {
+  <div class="admin-login-fullscreen">
+    <div class="admin-login-card">
+      <div class="admin-login-icon">🔒</div>
+      <h2 class="admin-login-title">Panel de Control</h2>
+      <p class="admin-login-sub">Heladería Libertad — Solo personal autorizado</p>
+      <div class="admin-login-form">
+        <input class="admin-login-input" type="password" placeholder="Contraseña secreta..."
+          (input)="actualizarPass($event)" (keyup.enter)="entrarAlPanel()">
+        <button class="admin-login-btn" (click)="entrarAlPanel()">
+          Entrar al Panel →
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @else {
+  <div class="dashboard-admin">
+
+    <div class="admin-nav">
+      <div class="admin-nav-header">
+        <div class="admin-nav-brand">
+          <span class="admin-crown">👑</span>
+          <div>
+            <h2>Panel de Control</h2>
+            <small>Heladería Libertad</small>
+          </div>
+        </div>
+        <div class="admin-nav-actions" style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn-refrescar" (click)="refrescarTodoManual()" title="Actualizar datos ahora">
+            🔄 Refrescar
+          </button>
+          
+          <button class="btn-refrescar" (click)="toggleAutoRefresh()" 
+                  [class.auto-on]="autoRefreshOn()" 
+                  [title]="autoRefreshOn() ? 'Dejar de buscar pedidos automáticamente' : 'Buscar pedidos automáticamente cada 15s'">
+            {{ autoRefreshOn() ? '⏱️ Auto ON' : '⏸️ Auto OFF' }}
+          </button>
+
+          <button class="btn-cerrar-sesion" (click)="cerrarSesionAdmin()">🚪 Salir</button>
+        </div>
+      </div>
+      <div class="admin-tabs-menu">
+        <button [class.activo]="adminTab() === 'pedidos'" (click)="setAdminTab('pedidos')">
+          <span class="tab-icon">📦</span> Pedidos
+        </button>
+        <button [class.activo]="adminTab() === 'productos'" (click)="setAdminTab('productos')">
+          <span class="tab-icon">🍦</span> Productos
+        </button>
+        <button [class.activo]="adminTab() === 'agenda'" (click)="setAdminTab('agenda')">
+          <span class="tab-icon">📅</span> Agenda
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      @if (adminTab() === 'pedidos') {
+      <div class="tab-header">
+        <h3>Pedidos Recientes</h3>
+        <button class="btn-actualizar" (click)="cargarPedidos()">🔄 Actualizar Lista</button>
+      </div>
+
+      <div class="pedidos-grid">
+        @for (pedido of pedidosVisibles(); track pedido.id) {
+        <div class="pedido-card estatus-{{ pedido.estatus }}">
+          <div class="pedido-header">
+            <h3>{{ pedido.cliente_nombre }}</h3>
+            <span class="badge {{ pedido.tipo_pedido }}">{{ pedido.tipo_pedido | uppercase }}</span>
+          </div>
+
+          <p class="fecha-txt">
+            📅 {{ pedido.tipo_pedido === 'hoy' ? 'Para Hoy' : pedido.fecha_entrega }}
+            {{ pedido.hora_entrega ? 'a las ' + pedido.hora_entrega : '' }}
+          </p>
+
+          <div class="productos-lista-admin">
+            @for (item of pedido.productos; track item.id) {
+            <p>- {{ item.cantidad }}x {{ item.nombre }}</p>
+            }
+          </div>
+
+          <div class="pedido-footer">
+            <strong>Total: ${{ pedido.total }}</strong>
+            <span class="estatus-label">{{ pedido.estatus | uppercase }}</span>
+          </div>
+
+          <div class="pedido-acciones">
+            @if (pedido.estatus === 'pendiente') {
+            <button class="btn-aceptar" (click)="cambiarEstatusPedido(pedido, 'aceptado', false)">📅 Anotar en Agenda</button>
+            <button class="btn-whats" (click)="cambiarEstatusPedido(pedido, 'aceptado', true)">📲 Notificar por Whats (Aceptar)</button>
+            <button class="btn-rechazar" (click)="cambiarEstatusPedido(pedido, 'rechazado', true)">❌ Rechazar por Whats</button>
+            }
+            @else if (pedido.estatus === 'aceptado' || pedido.estatus === 'agendado') {
+            <button class="btn-whats" (click)="enviarWhatsAppDirecto(pedido, pedido.estatus)">📲 Enviar WhatsApp</button>
+            <button class="btn-entregar" (click)="cambiarEstatusPedido(pedido, 'entregado', false)">🛵 Marcar Entregado / Finalizado</button>
+            }
+            @else if (pedido.estatus === 'rechazado') {
+            <p class="texto-rechazado">Pedido declinado.</p>
+            } @else {
+            <p class="texto-entregado">Pedido finalizado con éxito 🎉.</p>
+            }
+          </div>
+        </div>
+        }
+        @empty {
+        <p style="text-align: center; color: #888; grid-column: 1 / -1;">No hay pedidos registrados aún.</p>
+        }
+      </div>
+      }
+
+      @if (adminTab() === 'productos') {
+      <div class="tab-header">
+        <h3>Catálogo de Productos 🍦</h3>
+        <button class="btn-primario" (click)="abrirModalCrear()">+ Nuevo Producto</button>
+      </div>
+
+      @for (cat of categoriasAdmin(); track cat) {
+      <div class="categoria-admin-seccion">
+        <h4 class="titulo-categoria-admin">{{ cat }}</h4>
+
+        <div class="crud-container fondo-estrellado">
+          <div class="crud-table-header">
+            <span>Foto</span><span>Nombre</span><span>Precio</span><span>Acciones</span>
+          </div>
+
+          <div class="crud-table-body">
+            @for (prod of obtenerProductosPorCategoria(cat); track prod.id) {
+            <div class="crud-row-cat" [class.inactivo]="prod.activo === false">
+              <div class="prod-foto-cell">
+                <img [src]="prod.foto || '/fotos/default_ice.jpg'" alt="Foto Producto"
+                  onerror="this.src='https://via.placeholder.com/60x60/fdf2f5/d81b60?text=🍦'">
+              </div>
+              <div class="prod-nombre-cell"><strong>{{ prod.nombre }}</strong></div>
+              <div class="prod-precio-cell">${{ prod.precio }}</div>
+              <div class="prod-acciones-cell">
+                <button class="btn-icon-edit" (click)="abrirModalEditar(prod)" title="Editar">✏️</button>
+                <button class="btn-icon-delete" (click)="darDeBajaProducto(prod.id)" title="Dar de Baja">🗑️</button>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      }
+      @empty {
+      <p style="text-align: center; color: #888; padding: 40px;">Aún no tienes productos. ¡Crea el primero!</p>
+      }
+
+      @if (mostrarModalProducto()) {
+      <div class="modal-backdrop" (click)="cerrarModalProducto()">
+        <div class="modal-content crud-form-modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>{{ productoEnEdicion() ? '✏️ Editar Producto' : '➕ Nuevo Producto' }}</h3>
+            <span class="close-btn" (click)="cerrarModalProducto()">&times;</span>
+          </div>
+
+          <form class="crud-form" #formProd="ngForm" (ngSubmit)="guardarProducto(formProd.value)">
+            <div class="form-group-foto">
+              <img [src]="productoEnEdicion()?.foto || '/fotos/default_ice.jpg'" alt="Preview Foto"
+                onerror="this.src='https://via.placeholder.com/120x120/fdf2f5/d81b60?text=🍦'">
+              <label class="btn-subir-foto">
+                <input type="file" accept="image/*" (change)="seleccionarFoto($event)">
+                📸 Seleccionar Foto
+              </label>
+              <p style="font-size: 0.8rem; color: #666; margin: 5px 0 0;">Selecciona una imagen desde tu PC o celular.</p>
+            </div>
+
+            <input type="text" name="nombre" [ngModel]="productoEnEdicion()?.nombre"
+              placeholder="Nombre (Ej: Frappé Oreo)" required>
+
+            <input type="text" name="categoria" [ngModel]="productoEnEdicion()?.categoria" 
+              list="categorias-existentes" placeholder="Selecciona o escribe una Categoría..." 
+              required class="input-select">
+              
+            <datalist id="categorias-existentes">
+              @for (cat of categoriasAdmin(); track cat) {
+                <option [value]="cat"></option>
+              }
+            </datalist>
+
+            <input type="number" name="precio" [ngModel]="productoEnEdicion()?.precio"
+              placeholder="Precio ($)" required>
+
+            <div class="form-footer">
+              <button type="button" class="btn-cancelar" (click)="cerrarModalProducto()">Cancelar</button>
+              <button type="submit" class="btn-primario">
+                {{ productoEnEdicion() ? 'Guardar Cambios' : 'Subir Producto' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      }
+      }
+
+      @if (adminTab() === 'agenda') {
+      <div class="agenda-admin-layout">
+        <!-- Izquierda: Calendario Global -->
+        <div class="calendario-custom admin-cal">
+          <div class="cal-header">
+            <button (click)="cambiarMes(-1)">◀</button>
+            <h4>{{ nombreMes(mesReferencia()) }} {{ mesReferencia().getFullYear() }}</h4>
+            <button (click)="cambiarMes(1)">▶</button>
+          </div>
+          <div class="cal-dias-semana">
+            <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+          </div>
+          <div class="cal-grid">
+            @for (dia of diasCalendario(); track $index) {
+            @if (dia === null) {
+            <div class="dia-vacio"></div>
+            } @else {
+            <button class="dia-btn" 
+              [class.seleccionado]="esMismaFecha(dia, fechaSeleccionada())"
+              [class.bloqueado]="esFechaBloqueada(dia)"
+              [class.pasado]="esFechaPasada(dia)"
+              [class.con-pedidos]="pedidosAgendadosCount()[formatearFechaDB(dia)] > 0"
+              (click)="seleccionarFecha(dia)">
+              <span class="dia-num">{{ dia.getDate() }}</span>
+              <!-- Circulito de pedidos -->
+              @if (pedidosAgendadosCount()[formatearFechaDB(dia)]) {
+                <span class="punto-pedidos">{{ pedidosAgendadosCount()[formatearFechaDB(dia)] }}</span>
+              }
+            </button>
+            }
+            }
+          </div>
+        </div>
+
+        <!-- Derecha: Detalles del Día Seleccionado -->
+        <div class="agenda-detalle-panel">
+          @if (fechaSeleccionada()) {
+            
+            <div class="detalle-header">
+              <h3>Día: {{ fechaSeleccionada()?.getDate() }} de {{ nombreMes(fechaSeleccionada()!) }}</h3>
+              
+              @if (!esFechaPasada(fechaSeleccionada()!)) {
+                <button class="btn-bloquear" 
+                        [class.btn-desbloquear]="esFechaBloqueada(fechaSeleccionada()!)"
+                        (click)="toggleBloqueoFecha(fechaSeleccionada()!)">
+                  {{ esFechaBloqueada(fechaSeleccionada()!) ? '🟩 Abrir Día' : '🛑 Bloquear Día' }}
+                </button>
+              }
+            </div>
+
+            @if (esFechaBloqueada(fechaSeleccionada()!)) {
+              <div class="alerta-error">
+                <strong>Día Bloqueado</strong><br>
+                Los clientes no pueden agendar pedidos para hoy.
+              </div>
+            }
+
+            <h4 class="subtitulo-pedidos-dia">Pedidos para este día ({{ pedidosDelDia().length }})</h4>
+            
+            <div class="pedidos-dia-grid">
+              @for (pedido of pedidosDelDia(); track pedido.id) {
+                <div class="pedido-dia-card">
+                  <div class="pedido-dia-head">
+                    <strong>{{ pedido.cliente_nombre }}</strong>
+                    <span class="hora-tag">{{ pedido.hora_entrega || 'Sin hora' }}</span>
+                  </div>
+                  <p class="tel-text">📞 {{ pedido.cliente_telefono || 'Sin tel.' }}</p>
+                  <ul class="micro-resumen">
+                    @for (prod of pedido.productos; track prod.id) {
+                      <li>{{ prod.cantidad }}x {{ prod.nombre }}</li>
+                    }
+                  </ul>
+                  <button class="btn-terminar" (click)="cambiarEstatusPedido(pedido, 'entregado')">
+                    ✅ Marcar Completado
+                  </button>
+                </div>
+              }
+              @empty {
+                <p class="empty-msg">No hay pedidos agendados en esta fecha.</p>
+              }
+            </div>
+
+          } @else {
+            <div class="empty-panel">
+              <span class="icon-big">📅</span>
+              <p>Selecciona un día en el calendario para ver sus detalles o bloquear la fecha.</p>
+            </div>
+          }
+        </div>
+      </div>
+      }
+
+    </div>
+  </div>
+  }
+</section>
+}
+
+<footer class="footer">
+  <p>© 2026 Heladería Libertad - Timucuy, Yucatán. Todos los derechos reservados.</p>
+</footer>
+
+@if (cantidadCarrito() > 0 && (esPedidoAgendado() || estaAbierta())) {
+<div class="carrito-flotante">
+  <div class="carrito-info">
+    <span class="carrito-icono">🛒</span>
+    <div>
+      <p class="carrito-texto">{{ cantidadCarrito() }} productos</p>
+      <p class="carrito-total">Total: ${{ totalCarrito() }}</p>
+    </div>
+  </div>
+  <button class="btn-whatsapp" style="background-color: white; color: black;" (click)="abrirCarrito()">
+    Ver mi pedido 👁️
+  </button>
+</div>
+}
+
+@if (mostrarCarritoModal()) {
+<div class="modal-fondo">
+  <div class="modal-contenido">
+    <div class="modal-header">
+      <h3>Tu Carrito 🍦</h3>
+      <button class="btn-cerrar" (click)="cerrarCarrito()">❌</button>
+    </div>
+
+    <div class="carrito-lista">
+      @for (item of carrito(); track item.id) {
+      <div class="carrito-item">
+        <div class="item-info">
+          <strong>{{ item.cantidad }}x {{ item.nombre }}</strong>
+          <span class="item-precio">${{ item.precio * item.cantidad }}</span>
+        </div>
+        <button class="btn-eliminar" (click)="eliminarDelCarrito(item.id)">🗑️</button>
+      </div>
+      }
+    </div>
+
+    <div class="carrito-resumen">
+      <p>Total a pagar: <strong>${{ totalCarrito() }}</strong></p>
+    </div>
+
+    <div class="carrito-datos-cliente">
+      <input type="text" class="input-nombre" placeholder="Tu nombre o cómo te llamamos"
+        [value]="nombreCliente()" (input)="actualizarNombre($event)">
+      <input type="tel" class="input-nombre" placeholder="Tu número de WhatsApp (10 dígitos)"
+        [value]="telefonoCliente()" (input)="actualizarTelefono($event)" style="margin-top: 10px;">
+    </div>
+
+    @if (esPedidoAgendado()) {
+    <button class="btn-primario modal-btn"
+      style="width: 100%; border: none; font-size: 1.1rem; padding: 15px; border-radius: 10px; cursor: pointer; margin-top: 15px;"
+      (click)="procesarPedido()">
+      Confirmar Agenda en el Sistema 📅
+    </button>
+    } @else {
+    <button class="btn-whatsapp modal-btn"
+      style="width: 100%; font-size: 1.1rem; padding: 15px; border-radius: 10px; cursor: pointer; margin-top: 15px; border: none;"
+      (click)="procesarPedido()">
+      Pedir y avisar por WhatsApp 💬
+    </button>
+    }
+  </div>
+</div>
+}
+
+@if (productoPersonalizando() !== null) {
+<div class="modal-fondo">
+  <div class="modal-contenido modal-personalizacion">
+    <div class="modal-header">
+      <h3>Personaliza tu Pedido ✨</h3>
+      <button class="btn-cerrar" (click)="cerrarPersonalizacion()">❌</button>
+    </div>
+
+    <!-- Info del producto base -->
+    <div class="personalizacion-base">
+      <img [src]="productoPersonalizando().foto || 'https://via.placeholder.com/150x150/fdf2f5/d81b60?text=🍦'" 
+           alt="{{ productoPersonalizando().nombre }}"
+           onerror="this.src='https://via.placeholder.com/150x150/fdf2f5/d81b60?text=🍦'">
+      <div class="info-base">
+        <h4>{{ productoPersonalizando().nombre }}</h4>
+        <p class="precio-base">${{ productoPersonalizando().precio }} base</p>
+      </div>
+    </div>
+
+    @if (toppingsDisponibles().length > 0) {
+    <div class="toppings-seccion">
+      <p class="titulo-toppings">¿Deseas agregar Toppings?</p>
+      <small class="sub-toppings">Puedes agregar los extras que gustes 😊</small>
+      
+      <div class="toppings-list">
+        @for (topping of toppingsDisponibles(); track topping.id) {
+        <label class="topping-item" [class.seleccionado]="toppingsElegidos().includes(topping)">
+          <input type="checkbox"
+                 [checked]="toppingsElegidos().includes(topping)" 
+                 (change)="toggleTopping(topping)">
+          <div class="topping-info">
+            <span class="topping-nombre">{{ topping.nombre }}</span>
+            <span class="topping-precio">+${{ topping.precio }}</span>
+          </div>
+        </label>
+        }
+      </div>
+    </div>
+    }
+
+    <button class="btn-primario modal-btn btn-confirmar-perso" (click)="confirmarYAgregar()">
+      Agregar al Pedido • ${{ precioTotalPersonalizado() }}
+    </button>
+  </div>
+</div>
+}
