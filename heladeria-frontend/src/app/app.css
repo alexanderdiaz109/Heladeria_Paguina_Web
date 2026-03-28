@@ -222,42 +222,29 @@ body {
   background-color: #b0124b; /* Se oscurece un poco */
 }
 
-/* --- Apartado 3: Sección Información (versión premium) --- */
+/* --- Apartado 3: Sección Información (versión minimalista y compacta) --- */
 .info-section {
   padding: 0;
   text-align: center;
 }
 
-/* === FRANJA SUPERIOR: gradiente animado, no sólido === */
+/* === FRANJA SUPERIOR: gradiente más sutil y compacto === */
 .info-encabezado {
-  background: linear-gradient(135deg, #f8bbd0 0%, #fce4ec 40%, #f48fb1 70%, #e91e8c22 100%);
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #fce4ec 100%);
   background-size: 300% 300%;
   animation: gradienteVivo 8s ease infinite;
-  padding: 70px 20px 100px;
+  padding: 30px 20px 50px;
   position: relative;
   overflow: hidden;
-}
-
-/* Círculos decorativos de fondo tipo bokeh */
-.info-encabezado::before {
-  content: '';
-  position: absolute;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(216,27,96,0.12) 0%, transparent 70%);
-  top: -80px;
-  left: -80px;
-  border-radius: 50%;
-  pointer-events: none;
 }
 
 .info-encabezado::after {
   content: '';
   position: absolute;
-  bottom: -35px;
+  bottom: -25px;
   left: 0;
   right: 0;
-  height: 70px;
+  height: 50px;
   background-color: #fdf8f8;
   clip-path: ellipse(55% 100% at 50% 0%);
 }
@@ -273,27 +260,27 @@ body {
   position: relative;
   z-index: 1;
   text-transform: uppercase;
-  letter-spacing: 4px;
-  font-size: 0.8rem;
+  letter-spacing: 3px;
+  font-size: 0.7rem;
   color: #c2185b;
   font-weight: 800;
-  margin: 0 0 14px 0;
+  margin: 0 0 8px 0;
   display: inline-block;
-  background: rgba(255,255,255,0.55);
-  padding: 4px 16px;
+  background: rgba(255,255,255,0.6);
+  padding: 3px 12px;
   border-radius: 30px;
   backdrop-filter: blur(4px);
   border: 1px solid rgba(216,27,96,0.2);
 }
 
-/* Título grande con gradiente de texto */
+/* Título compacto con gradiente de texto */
 .info-titulo {
   position: relative;
   z-index: 1;
-  font-size: 3rem;
+  font-size: 1.8rem;
   font-weight: 900;
-  margin: 0 0 18px 0;
-  letter-spacing: -1px;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
   line-height: 1.1;
   background: linear-gradient(135deg, #880e4f 0%, #d81b60 50%, #e91e63 100%);
   -webkit-background-clip: text;
@@ -301,43 +288,42 @@ body {
   background-clip: text;
 }
 
-/* Texto descriptivo */
+/* Texto descriptivo compacto */
 .info-texto {
   position: relative;
   z-index: 1;
   color: #5d2042;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  max-width: 540px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: 480px;
   margin: 0 auto;
   font-weight: 500;
 }
 
-/* === GRID DE TARJETAS premium === */
+/* === GRID DE TARJETAS minimalista y compacta === */
 .info-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 22px;
-  max-width: 960px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 65px 24px 80px;
+  padding: 30px 16px 50px;
 }
 
 .info-card {
   background: white;
-  border-radius: 22px;
-  padding: 32px 22px 28px;
-  box-shadow:
-    0 2px 4px rgba(216, 27, 96, 0.04),
-    0 8px 24px rgba(216, 27, 96, 0.10);
+  border-radius: 16px;
+  padding: 16px 14px 14px;
+  box-shadow: 0 2px 12px rgba(216, 27, 96, 0.07);
   border: 1px solid #fce4ec;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.35s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.35s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
 }
 
 /* Acento de color en la parte superior de cada tarjeta */
@@ -345,49 +331,30 @@ body {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #f48fb1, #d81b60, #880e4f);
-  border-radius: 22px 22px 0 0;
-}
-
-/* Resplandor de fondo sutil al hover */
-.info-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(216,27,96,0.06) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+  height: 3px;
+  background: linear-gradient(90deg, #f48fb1, #d81b60);
+  border-radius: 16px 16px 0 0;
 }
 
 .info-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow:
-    0 4px 8px rgba(216, 27, 96, 0.06),
-    0 20px 40px rgba(216, 27, 96, 0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(216, 27, 96, 0.13);
 }
 
-.info-card:hover::after {
-  opacity: 1;
-}
-
-/* Ícono circular mejorado */
+/* Ícono circular compacto */
 .icono-circular {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   background: linear-gradient(135deg, #fce4ec, #ffdce5);
   color: #d81b60;
-  width: 60px;
-  height: 60px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow:
-    0 4px 12px rgba(216, 27, 96, 0.15),
-    inset 0 1px 1px rgba(255,255,255,0.8);
-  margin-bottom: 6px;
+  box-shadow: 0 2px 8px rgba(216, 27, 96, 0.12);
+  margin-bottom: 4px;
   position: relative;
   z-index: 1;
 }
@@ -398,9 +365,9 @@ body {
   z-index: 1;
   margin: 0;
   color: #1a1a1a;
-  font-size: 1.05rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.1px;
 }
 
 /* Texto secundario de la tarjeta */
@@ -409,15 +376,15 @@ body {
   z-index: 1;
   margin: 0;
   color: #999;
-  font-size: 0.88rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 
 /* Dato importante (teléfono, horario…) */
 .info-card strong {
   position: relative;
   z-index: 1;
-  font-size: 1.05rem;
+  font-size: 0.85rem;
   font-weight: 800;
   background: linear-gradient(135deg, #d81b60, #880e4f);
   -webkit-background-clip: text;
@@ -432,12 +399,13 @@ body {
   color: #d81b60;
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.9rem;
-  padding: 6px 16px;
-  border: 1.5px solid #fce4ec;
-  border-radius: 20px;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  margin-top: 4px;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border: 1px solid #fce4ec;
+  border-radius: 15px;
+  transition: background 0.2s ease, color 0.2s ease;
+  margin-top: 3px;
+  display: inline-block;
 }
 
 .info-card a:hover {
@@ -662,13 +630,38 @@ body {
   box-shadow: none !important;
 }
 
-/* --- Footer --- */
+/* --- Footer Minimalista Premium --- */
 .footer {
   text-align: center;
-  padding: 20px;
-  background-color: #333;
-  color: white;
-  margin-top: 50px;
+  padding: 28px 20px;
+  background: linear-gradient(135deg, #1a0a10 0%, #2d1220 50%, #1a0a10 100%);
+  color: rgba(255,255,255,0.6);
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(216,27,96,0.25);
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d81b60, transparent);
+}
+.footer p {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.footer p::before {
+  content: '🍦 ';
+  opacity: 0.6;
+}
+.footer p::after {
+  content: ' 🍦';
+  opacity: 0.6;
 }
 
 /* ---- Paneles de tipo de pedido (premium claro) ---- */
@@ -1409,47 +1402,99 @@ body {
 /* Contenido del admin sobre fondo blanco */
 .admin-content {
   background: white;
-  border: 2px solid #ffdce5;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 10px 40px rgba(216,27,96,0.08);
+  border: 1.5px solid #ffdce5;
+  border-radius: 18px;
+  padding: 20px 16px;
+  box-shadow: 0 6px 25px rgba(216,27,96,0.07);
 }
 
 /* Contenido */
-.tab-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.tab-header h3 { margin: 0; font-size: 1.5rem; color: #333; }
-.btn-actualizar { background: white; border: 1px solid #ccc; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-.btn-actualizar:hover { background: #eee; }
-.pedidos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tab-header h3 { margin: 0; font-size: 1.1rem; color: #333; font-weight: 800; }
+.btn-actualizar {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.82rem;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+.btn-actualizar:hover { background: #fdf2f5; border-color: #ffdce5; color: #d81b60; }
 
-/* Tarjetas de Pedido y Colores por Estatus */
-.pedido-card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-left: 6px solid #ccc; transition: all 0.3s; }
-.pedido-card:hover { transform: translateY(-3px); }
-.estatus-pendiente { border-left-color: #ff9800; }
-.estatus-aceptado  { border-left-color: #2196f3; background-color: #e3f2fd; }
-.estatus-rechazado { border-left-color: #f44336; background-color: #ffebee; opacity: 0.7; }
-.estatus-entregado { border-left-color: #4caf50; background-color: #e8f5e9; opacity: 0.6; }
+/* Grid de pedidos — una columna en mobile */
+.pedidos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 900px) {
+  .pedidos-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+}
 
-.pedido-header { display: flex; justify-content: space-between; align-items: center; }
-.pedido-header h3 { margin: 0; color: #333; font-size: 1.2rem; }
-.badge { padding: 4px 8px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+/* Tarjetas de Pedido — más compactas */
+.pedido-card {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-left: 4px solid #ddd;
+  transition: all 0.25s;
+}
+.pedido-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+.estatus-pendiente { border-left-color: #fb8c00; }
+.estatus-aceptado  { border-left-color: #1e88e5; background-color: #f0f7ff; }
+.estatus-rechazado { border-left-color: #e53935; background-color: #fff5f5; opacity: 0.75; }
+.estatus-entregado { border-left-color: #43a047; background-color: #f1faf2; opacity: 0.65; }
+
+.pedido-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pedido-header h3 { margin: 0; color: #333; font-size: 0.95rem; font-weight: 800; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.badge { padding: 3px 7px; border-radius: 15px; font-size: 0.7rem; font-weight: 800; flex-shrink: 0; }
 .badge.hoy { background: #e8f5e9; color: #2e7d32; }
 .badge.agendado { background: #e3f2fd; color: #1565c0; }
-.fecha-txt { color: #666; font-size: 0.9rem; margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-.productos-lista-admin { margin: 15px 0; color: #444; font-size: 0.95rem; min-height: 60px; }
-.productos-lista-admin p { margin: 3px 0; }
-.pedido-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #eee; }
-.estatus-label { font-weight: bold; font-size: 0.85rem; color: #666; background: #eee; padding: 4px 10px; border-radius: 10px; }
+.fecha-txt { color: #777; font-size: 0.8rem; margin: 7px 0; border-bottom: 1px solid #f0f0f0; padding-bottom: 7px; }
+.productos-lista-admin { margin: 8px 0; color: #555; font-size: 0.82rem; min-height: auto; }
+.productos-lista-admin p { margin: 2px 0; line-height: 1.4; }
+.pedido-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+.pedido-footer strong { font-size: 0.9rem; color: #333; }
+.estatus-label { font-weight: 700; font-size: 0.72rem; color: #666; background: #f0f0f0; padding: 3px 8px; border-radius: 8px; }
 
-/* Botones de Acción */
-.pedido-acciones { display: flex; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ddd; }
-.pedido-acciones button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
-.btn-aceptar { background-color: #4caf50; } .btn-aceptar:hover { background-color: #43a047; }
+/* Botones de Acción — columna única, compactos */
+.pedido-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #eee;
+}
+.pedido-acciones button {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+  text-align: center;
+}
+.btn-aceptar { background-color: #43a047; } .btn-aceptar:hover { background-color: #388e3c; }
 .btn-whats { background-color: #128C7E; } .btn-whats:hover { background-color: #075E54; }
-.btn-rechazar { background-color: #f44336; } .btn-rechazar:hover { background-color: #e53935; }
-.btn-entregar { background-color: #2196f3; } .btn-entregar:hover { background-color: #1e88e5; }
-.texto-rechazado { color: #d32f2f; font-weight: bold; margin: 0 auto; text-align: center; }
-.texto-entregado { color: #388e3c; font-weight: bold; margin: 0 auto; text-align: center; }
+.btn-rechazar { background-color: #e53935; } .btn-rechazar:hover { background-color: #c62828; }
+.btn-entregar { background-color: #1e88e5; } .btn-entregar:hover { background-color: #1565c0; }
+.texto-rechazado { color: #d32f2f; font-size: 0.82rem; font-weight: bold; margin: 0 auto; text-align: center; }
+.texto-entregado { color: #388e3c; font-size: 0.82rem; font-weight: bold; margin: 0 auto; text-align: center; }
 
 /* Cajas de En Construcción */
 .construccion-box { background: white; padding: 50px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px dashed #ffdce5; }
@@ -1534,23 +1579,54 @@ body {
 .estatus-agendado { border-left-color: #9c27b0; background-color: #f3e5f5; }
 
 /* =========================================
-   AGENDA ADMIN STYLES 
+   AGENDA ADMIN STYLES — CORREGIDA
    ========================================= */
 .agenda-admin-layout {
   display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 30px;
+  grid-template-columns: 1fr;
+  gap: 16px;
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 900px) {
   .agenda-admin-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
   }
 }
 
-.admin-cal { max-width: 100%; border: 2px solid #ffdce5; box-shadow: none; border-radius: 20px; }
-.admin-cal .dia-btn { position: relative; height: 60px; }
+/* Calendario admin: tamaño de días correctamente encuadrado */
+.admin-cal {
+  max-width: 100%;
+  border: 1.5px solid #ffdce5;
+  box-shadow: none;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+.admin-cal .cal-grid {
+  gap: 3px;
+  padding: 0 8px 8px;
+}
+.admin-cal .cal-dias-semana {
+  padding: 0 8px;
+  font-size: 0.72rem;
+}
+.admin-cal .dia-btn {
+  position: relative;
+  height: 44px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.82rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+.dia-num { line-height: 1; }
 .admin-cal .dia-btn.pasado { cursor: pointer; background-color: #fcfcfc; }
 .admin-cal .dia-btn.pasado:hover { border-color: #d81b60; color: #d81b60; opacity: 1; }
 
@@ -1570,19 +1646,19 @@ body {
 /* Circulito de pedidos en el calendario */
 .punto-pedidos {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  bottom: 3px;
+  right: 3px;
   background: #d81b60;
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  width: 22px;
-  height: 22px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(216,27,96,0.3);
+  box-shadow: 0 1px 4px rgba(216,27,96,0.3);
 }
 
 .dia-btn.bloqueado {
@@ -1593,54 +1669,81 @@ body {
 }
 .dia-btn.bloqueado:hover { background-color: #f8bbd0; }
 
+/* Panel de detalles del día — compacto */
 .agenda-detalle-panel {
   background: white;
-  border: 2px solid #ffdce5;
-  border-radius: 20px;
-  padding: 25px;
-  min-height: 400px;
+  border: 1.5px solid #ffdce5;
+  border-radius: 16px;
+  padding: 16px;
+  min-height: 200px;
 }
 .detalle-header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px dashed #eee;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  gap: 8px;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
 }
-.detalle-header h3 { margin: 0; color: #d81b60; font-size: 1.2rem; }
+.detalle-header h3 { margin: 0; color: #d81b60; font-size: 1rem; font-weight: 800; }
 .btn-bloquear {
-  background: #ff5252;
+  background: linear-gradient(135deg, #ff5252, #d32f2f);
   color: white;
   border: none;
-  padding: 8px 15px;
+  padding: 6px 12px;
   border-radius: 8px;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 0.8rem;
   cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
 }
-.btn-desbloquear { background: #4caf50; }
+.btn-bloquear:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-desbloquear { background: linear-gradient(135deg, #43a047, #2e7d32); }
 
-.subtitulo-pedidos-dia { color: #555; margin-bottom: 15px; border-left: 4px solid #d81b60; padding-left: 10px; }
+.subtitulo-pedidos-dia {
+  color: #555;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+  border-left: 3px solid #d81b60;
+  padding-left: 8px;
+  font-weight: 700;
+}
 
-.pedidos-dia-grid { display: flex; flex-direction: column; gap: 15px; }
+.pedidos-dia-grid { display: flex; flex-direction: column; gap: 10px; }
 .pedido-dia-card {
   background: #fdfdfd;
   border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-  border-left: 4px solid #ffdce5;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  border-left: 3px solid #ffdce5;
 }
-.pedido-dia-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-.hora-tag { background: #fff0f3; color: #d81b60; padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 0.85rem;}
-.tel-text { margin: 0 0 10px 0; font-size: 0.9rem; color: #666; }
-.micro-resumen { padding-left: 20px; margin: 0 0 15px 0; font-size: 0.9rem; color: #555; }
-.btn-terminar { width: 100%; background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s;}
+.pedido-dia-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; gap: 6px; }
+.pedido-dia-head strong { font-size: 0.9rem; color: #333; }
+.hora-tag { background: #fff0f3; color: #d81b60; padding: 3px 6px; border-radius: 5px; font-weight: 700; font-size: 0.75rem; flex-shrink: 0; }
+.tel-text { margin: 0 0 6px 0; font-size: 0.8rem; color: #666; }
+.micro-resumen { padding-left: 15px; margin: 0 0 10px 0; font-size: 0.8rem; color: #555; }
+.btn-terminar {
+  width: 100%;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+  padding: 8px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
 .btn-terminar:hover { background: #c8e6c9; }
 
-.empty-panel { text-align: center; color: #888; padding: 50px 20px; }
-.empty-msg { color: #999; text-align: center; font-style: italic; }
-.icon-big { font-size: 3rem; display: block; margin-bottom: 15px; opacity: 0.5; }
+.empty-panel { text-align: center; color: #888; padding: 30px 20px; }
+.icon-big { font-size: 2.5rem; display: block; margin-bottom: 12px; opacity: 0.4; }
+.empty-panel p { font-size: 0.85rem; }
+.empty-msg { color: #999; text-align: center; font-style: italic; font-size: 0.82rem; }
 
 /* =========================================
    RESPONSIVE (SMARTPHONES) 
@@ -1657,16 +1760,17 @@ body {
   .hero-contenido p { font-size: 1rem; padding: 0 10px; }
   .texto-titulo { display: block; }
   
-  /* Sección Info / Tarjetas */
-  .info-encabezado { padding: 25px 15px; }
-  .info-titulo { font-size: 1.8rem; word-break: break-word; }
-  .info-texto { font-size: 0.95rem; }
-  .info-cards-grid { grid-template-columns: 1fr 1fr; padding: 0 10px; gap: 10px; margin-top: -20px; }
-  .info-card { padding: 15px; }
-  .info-card h3 { font-size: 1rem; }
-  .info-card-text { font-size: 0.9rem; }
-  .info-card-detail { font-size: 0.95rem; }
-  .info-card .icon-big { font-size: 1.8rem; margin-bottom: 8px; }
+  /* Sección Info / Tarjetas — compacta mobile */
+  .info-encabezado { padding: 20px 12px 40px; }
+  .info-titulo { font-size: 1.4rem; word-break: break-word; }
+  .info-texto { font-size: 0.8rem; }
+  .info-cards-grid { grid-template-columns: 1fr 1fr; padding: 16px 10px 30px; gap: 8px; }
+  .info-card { padding: 12px 8px 10px; }
+  .info-card h4 { font-size: 0.75rem; }
+  .info-card p { font-size: 0.7rem; }
+  .info-card strong { font-size: 0.78rem; }
+  .info-card a { font-size: 0.68rem; padding: 3px 8px; }
+  .icono-circular { width: 34px; height: 34px; font-size: 1rem; }
   
   /* Menú de Pedidos y Pestañas */
   .seccion-menu { padding: 25px 10px; }
@@ -1683,6 +1787,9 @@ body {
   .cal-dias-semana span { font-size: 0.75rem; }
   .cal-dias-grid button { height: 35px; font-size: 0.85rem; }
   
+  /* Días del calendario público */
+  .dia-btn { padding: 8px 0; font-size: 0.88rem; }
+  
   /* Grid de Productos Públicos */
   .productos-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .producto-info { padding: 10px; }
@@ -1691,26 +1798,42 @@ body {
   .btn-agregar { font-size: 0.8rem; padding: 6px; }
   
   /* Admin - Panel y Layout */
-  .dashboard-admin { padding: 10px; overflow-x: hidden; }
-  .admin-nav { padding: 10px; }
-  .admin-nav-header { flex-direction: column; gap: 10px; text-align: center; }
-  .admin-nav-brand h2 { font-size: 1.2rem; }
-  .admin-tabs-menu button { font-size: 0.85rem; padding: 8px 12px; }
-  .pedidos-grid { grid-template-columns: 1fr; gap: 15px; }
+  .dashboard-admin { padding: 8px; overflow-x: hidden; }
+  .admin-nav { padding: 12px 10px; border-radius: 14px; margin-bottom: 12px; }
+  .admin-nav-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .admin-nav-actions { width: 100%; justify-content: flex-start !important; flex-wrap: wrap !important; }
+  .admin-crown { font-size: 1.4rem; }
+  .admin-nav-brand h2 { font-size: 1rem; }
+  .admin-nav-brand small { font-size: 0.75rem; }
+  .admin-tabs-menu { gap: 6px; }
+  .admin-tabs-menu button { font-size: 0.78rem; padding: 7px 10px; border-radius: 8px; }
+  .tab-icon { font-size: 0.9rem; }
+  .admin-content { padding: 14px 10px; border-radius: 14px; }
+  .pedidos-grid { grid-template-columns: 1fr; gap: 10px; }
   .pedido-card { padding: 12px; }
-  .pedido-acciones { display: grid; grid-template-columns: 1fr; gap: 8px; }
-  .pedido-acciones button { padding: 8px; font-size: 0.85rem; }
+  .pedido-acciones { flex-direction: column; gap: 6px; }
+  .pedido-acciones button { padding: 7px 10px; font-size: 0.78rem; }
+  .btn-refrescar { font-size: 0.78rem; padding: 7px 10px; }
+  .btn-cerrar-sesion { font-size: 0.78rem; padding: 7px 12px; }
   
   /* Admin - Agenda */
-  .agenda-admin-layout { grid-template-columns: 1fr; gap: 15px; }
-  .admin-cal .dia-btn { height: 40px; font-size: 0.85rem; }
-  .agenda-detalle-panel { padding: 15px; }
-  .btn-bloquear { width: 100%; margin-top: 10px; padding: 10px; }
+  .agenda-admin-layout { grid-template-columns: 1fr; gap: 12px; }
+  .admin-cal .dia-btn { height: 36px; font-size: 0.78rem; }
+  .admin-cal .cal-header { padding: 0 5px 5px; }
+  .admin-cal .cal-header h4 { font-size: 0.95rem; }
+  .agenda-detalle-panel { padding: 14px; border-radius: 14px; }
+  .detalle-header { flex-wrap: wrap; }
+  .detalle-header h3 { font-size: 0.9rem; }
+  .btn-bloquear { padding: 6px 10px; font-size: 0.78rem; }
+  
+  /* Footer compacto */
+  .footer { padding: 20px 15px; }
+  .footer p { font-size: 0.72rem; }
   
   /* Admin - Tabla Productos (Hacerla Scrollable Horizontal) */
   .crud-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .crud-table-header, .crud-row { 
-    min-width: 500px; /* Fuerza scroll en lugar de aplastar textos */
+    min-width: 500px;
   }
 }
 
