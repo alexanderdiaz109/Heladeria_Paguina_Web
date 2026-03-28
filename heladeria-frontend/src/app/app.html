@@ -121,7 +121,7 @@
 
     @if (esPedidoAgendado()) {
     <div class="panel-contenido panel-agendar">
-      <h3 style="margin-bottom: 5px;">Agendar pedido para un evento</h3>
+      <h3 style="margin-bottom: 5px; font-size: 1rem;">Agendar pedido para un evento</h3>
       <p class="subtitulo-panel">Tus pedidos agendados quedarán "Pendientes de confirmación".</p>
 
       <div class="paso-agenda">
@@ -193,7 +193,7 @@
   </div>
 
 
-  <div class="filtros-container">
+  <div class="filtros-scroll">
     @for (cat of categorias(); track cat) {
     <button (click)="seleccionarCategoria(cat)" [class.activo]="cat === categoriaSeleccionada()">
       {{ cat }}
@@ -252,7 +252,8 @@
   <div class="dashboard-admin">
 
     <div class="admin-nav">
-      <div class="admin-nav-header">
+      <!-- Barra compacta siempre visible -->
+      <div class="admin-nav-topbar">
         <div class="admin-nav-brand">
           <span class="admin-crown">👑</span>
           <div>
@@ -260,30 +261,44 @@
             <small>Heladería Libertad</small>
           </div>
         </div>
-        <div class="admin-nav-actions" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          <button class="btn-refrescar" (click)="refrescarTodoManual()" title="Actualizar datos ahora">
+        <button class="btn-hamburger" (click)="toggleMenuAdmin()" [class.abierto]="menuAdminAbierto()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Menú colapsable -->
+      @if (menuAdminAbierto()) {
+      <div class="admin-nav-dropdown">
+        <div class="admin-nav-actions-row">
+          <button class="btn-refrescar" (click)="refrescarTodoManual()" title="Actualizar">
             🔄 Refrescar
           </button>
-          
-          <button class="btn-refrescar" (click)="toggleAutoRefresh()" 
-                  [class.auto-on]="autoRefreshOn()" 
-                  [title]="autoRefreshOn() ? 'Dejar de buscar pedidos automáticamente' : 'Buscar pedidos automáticamente cada 15s'">
+          <button class="btn-refrescar" (click)="toggleAutoRefresh()"
+                  [class.auto-on]="autoRefreshOn()"
+                  [title]="autoRefreshOn() ? 'Desactivar auto' : 'Activar auto'">
             {{ autoRefreshOn() ? '⏱️ Auto ON' : '⏸️ Auto OFF' }}
           </button>
-
           <button class="btn-cerrar-sesion" (click)="cerrarSesionAdmin()">🚪 Salir</button>
         </div>
+        <div class="admin-tabs-menu">
+          <button [class.activo]="adminTab() === 'pedidos'" (click)="setAdminTabYCerrar('pedidos')">
+            <span class="tab-icon">📦</span> Pedidos
+          </button>
+          <button [class.activo]="adminTab() === 'productos'" (click)="setAdminTabYCerrar('productos')">
+            <span class="tab-icon">🍦</span> Productos
+          </button>
+          <button [class.activo]="adminTab() === 'agenda'" (click)="setAdminTabYCerrar('agenda')">
+            <span class="tab-icon">📅</span> Agenda
+          </button>
+        </div>
       </div>
-      <div class="admin-tabs-menu">
-        <button [class.activo]="adminTab() === 'pedidos'" (click)="setAdminTab('pedidos')">
-          <span class="tab-icon">📦</span> Pedidos
-        </button>
-        <button [class.activo]="adminTab() === 'productos'" (click)="setAdminTab('productos')">
-          <span class="tab-icon">🍦</span> Productos
-        </button>
-        <button [class.activo]="adminTab() === 'agenda'" (click)="setAdminTab('agenda')">
-          <span class="tab-icon">📅</span> Agenda
-        </button>
+      }
+
+      <!-- Indicador de pestaña activa -->
+      <div class="admin-tab-activa-bar">
+        <span class="tab-activa-chip">
+          {{ adminTab() === 'pedidos' ? '📦 Pedidos' : adminTab() === 'productos' ? '🍦 Productos' : '📅 Agenda' }}
+        </span>
       </div>
     </div>
 

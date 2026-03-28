@@ -103,6 +103,15 @@ export class App implements OnInit {
   // Control de Pestañas (Tabs)
   adminTab = signal<'pedidos' | 'productos' | 'agenda'>('pedidos');
 
+  // Menú hamburguesa del admin
+  menuAdminAbierto = signal<boolean>(false);
+  toggleMenuAdmin() { this.menuAdminAbierto.set(!this.menuAdminAbierto()); }
+
+  setAdminTabYCerrar(tab: 'pedidos' | 'productos' | 'agenda') {
+    this.setAdminTab(tab);
+    this.menuAdminAbierto.set(false);
+  }
+
   // Señales para datos
   pedidos = signal<any[]>([]);
   productosCrud = signal<any[]>([]); // Para la pestaña Mis Productos
