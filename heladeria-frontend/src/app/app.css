@@ -1647,10 +1647,10 @@ body {
    ========================================= */
 @media (max-width: 768px) {
   /* Navbar */
-  .navbar { flex-direction: column; gap: 15px; padding: 15px 10px; }
-  .logo-container h1 { font-size: 1.6rem; }
-  .links { width: 100%; justify-content: space-evenly; flex-wrap: wrap; gap: 10px; }
-  .nav-pill { flex: 1; text-align: center; padding: 10px 15px; font-size: 0.95rem; }
+  .navbar { flex-direction: column; gap: 8px; padding: 12px 10px; }
+  .logo-container h1 { font-size: 1.35rem; }
+  .links { width: 100%; justify-content: space-evenly; flex-wrap: wrap; gap: 8px; }
+  .nav-pill { flex: 1; text-align: center; padding: 8px 10px; font-size: 0.85rem; }
   
   /* Hero */
   .hero-contenido h1 { font-size: 2.2rem; }
