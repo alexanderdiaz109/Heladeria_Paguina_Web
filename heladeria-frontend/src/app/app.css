@@ -1658,46 +1658,59 @@ body {
   .texto-titulo { display: block; }
   
   /* Sección Info / Tarjetas */
-  .info-encabezado { padding: 40px 15px; }
-  .info-titulo { font-size: 2.3rem; word-break: break-word; }
-  .info-cards-grid { grid-template-columns: 1fr; padding: 0 15px; gap: 20px; margin-top: -30px; }
-  .info-card { padding: 25px; }
-  .info-card h3 { font-size: 1.2rem; }
-  .info-card-text { font-size: 1rem; }
-  .info-card-detail { font-size: 1.1rem; }
+  .info-encabezado { padding: 25px 15px; }
+  .info-titulo { font-size: 1.8rem; word-break: break-word; }
+  .info-texto { font-size: 0.95rem; }
+  .info-cards-grid { grid-template-columns: 1fr 1fr; padding: 0 10px; gap: 10px; margin-top: -20px; }
+  .info-card { padding: 15px; }
+  .info-card h3 { font-size: 1rem; }
+  .info-card-text { font-size: 0.9rem; }
+  .info-card-detail { font-size: 0.95rem; }
+  .info-card .icon-big { font-size: 1.8rem; margin-bottom: 8px; }
   
   /* Menú de Pedidos y Pestañas */
-  .seccion-menu { padding: 40px 15px; }
-  .titulo-menu { font-size: 2.5rem; }
-  .tabs-modos button { padding: 15px 10px; font-size: 0.9rem; flex: 1; }
+  .seccion-menu { padding: 25px 10px; }
+  .titulo-menu { font-size: 1.8rem; }
+  .tabs-modos button { padding: 10px 5px; font-size: 0.85rem; flex: 1; }
+  .filtros-flotantes { display: flex; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 5px; }
+  .filtros-flotantes button { font-size: 0.8rem; padding: 6px 12px; }
   
   /* Calendario Público y Panel */
-  .panel-contenido { padding: 25px 15px; }
+  .panel-contenido { padding: 15px 10px; }
   .paso-agenda { margin-bottom: 15px; }
-  .cal-header h4 { font-size: 1.1rem; }
-  .cal-dias-semana span { font-size: 0.8rem; }
-  .cal-dias-grid button { height: 40px; font-size: 0.9rem; }
+  .paso-agenda p { font-size: 0.9rem; }
+  .cal-header h4 { font-size: 1rem; }
+  .cal-dias-semana span { font-size: 0.75rem; }
+  .cal-dias-grid button { height: 35px; font-size: 0.85rem; }
   
   /* Grid de Productos Públicos */
-  .productos-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-  .producto-info h3 { font-size: 1.1rem; }
-  .btn-agregar { font-size: 0.85rem; padding: 8px; }
+  .productos-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .producto-info { padding: 10px; }
+  .producto-info h3 { font-size: 0.95rem; }
+  .producto-info .precio { font-size: 1.1rem; }
+  .btn-agregar { font-size: 0.8rem; padding: 6px; }
   
   /* Admin - Panel y Layout */
-  .dashboard-admin { padding: 10px; }
-  .admin-nav { padding: 15px; }
-  .admin-nav-header { flex-direction: column; gap: 15px; text-align: center; }
+  .dashboard-admin { padding: 10px; overflow-x: hidden; }
+  .admin-nav { padding: 10px; }
+  .admin-nav-header { flex-direction: column; gap: 10px; text-align: center; }
+  .admin-nav-brand h2 { font-size: 1.2rem; }
+  .admin-tabs-menu button { font-size: 0.85rem; padding: 8px 12px; }
+  .pedidos-grid { grid-template-columns: 1fr; gap: 15px; }
+  .pedido-card { padding: 12px; }
+  .pedido-acciones { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .pedido-acciones button { padding: 8px; font-size: 0.85rem; }
   
   /* Admin - Agenda */
-  .agenda-admin-layout { grid-template-columns: 1fr; gap: 20px; }
-  .admin-cal .dia-btn { height: 50px; }
+  .agenda-admin-layout { grid-template-columns: 1fr; gap: 15px; }
+  .admin-cal .dia-btn { height: 40px; font-size: 0.85rem; }
   .agenda-detalle-panel { padding: 15px; }
-  .btn-bloquear { width: 100%; margin-top: 10px; padding: 12px; }
+  .btn-bloquear { width: 100%; margin-top: 10px; padding: 10px; }
   
   /* Admin - Tabla Productos (Hacerla Scrollable Horizontal) */
   .crud-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .crud-table-header, .crud-row { 
-    min-width: 600px; /* Fuerza scroll en lugar de aplastar textos */
+    min-width: 500px; /* Fuerza scroll en lugar de aplastar textos */
   }
 }
 
