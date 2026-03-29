@@ -8,38 +8,48 @@ body {
 }
 
 /* --- Navbar y Logo --- */
+/* --- Navbar y Logo --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap; /* Permitir ajuste en móviles */
-  background-color: white;
-  padding: 10px 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  background-color: rgba(255, 255, 255, 0.94); /* Blanco con leve transparencia para Cristal */
+  backdrop-filter: blur(12px); /* Cristal esmerilado Premium */
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* Sombra súper sutil extendida */
   position: sticky;
   top: 0;
   z-index: 1000;
-  gap: 12px;
+  gap: 15px;
 }
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #d81b60;
+  gap: 12px;
+  color: #1a1a1a; /* Texto oscuro moderno, no rosa neón */
 }
-.logo-container h1 { font-size: 1.3rem; margin: 0; }
+.logo-container h1 { 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.35rem; 
+  font-weight: 800; 
+  margin: 0; 
+  letter-spacing: -0.5px; 
+}
 .logo {
-  height: 42px;
-  width: 42px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
-  border: 2px solid #ffdce5;
+  border: none; /* Sin borde de color */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* Levantar logo sutilmente */
   object-fit: cover;
 }
 /* Premium pill nav links */
 .links { 
   display: flex; 
   align-items: center; 
-  gap: 8px; 
+  gap: 6px; /* Muy juntos estilo pastilla moderna */
   flex-wrap: wrap; 
   justify-content: center; 
   width: 100%; /* Ocupar toda la fila en móvil */
@@ -47,47 +57,49 @@ body {
 
 @media (min-width: 768px) {
   .links { width: auto; justify-content: flex-end; }
-  .navbar { padding: 10px 40px; flex-wrap: nowrap; }
+  .navbar { padding: 12px 40px; flex-wrap: nowrap; }
 }
 
 .nav-pill {
   text-decoration: none;
-  color: #555;
-  font-weight: 600; /* Letra menos gruesa */
-  font-size: 0.85rem; /* Letra más pequeña */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #666; /* Gris profesional y mudo */
+  font-weight: 500; /* Minimalista sobrio constante */
+  font-size: 0.85rem; 
   cursor: pointer;
-  padding: 6px 14px; /* Menos padding vertical */
-  border-radius: 20px;
-  border: 1px solid transparent;
-  transition: all 0.25s ease;
+  padding: 8px 18px; 
+  border-radius: 30px; /* Bordes redondeados agresivos */
+  background-color: transparent;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   letter-spacing: 0.2px;
 }
 .nav-pill:hover {
-  background: #fff0f3;
-  border-color: #ffdce5;
-  color: #d81b60;
-  transform: translateY(-1px);
+  background-color: #f5f5f5; /* Gris clarísimo para hover */
+  color: #111; /* Letras se oscurecen */
 }
 .nav-pill.activo {
-  background: #fff0f3;
-  border-color: #f48fb1;
-  color: #d81b60;
+  background-color: #1a1a1a; /* Activo es casi negro, puro diseño premium */
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 /* CTA button in nav */
 .nav-pill-cta {
-  background: linear-gradient(135deg, #d81b60, #e91e63);
-  color: white !important;
-  border-color: transparent;
-  box-shadow: 0 4px 10px rgba(216,27,96,0.25); /* Sombra más sutil */
+  background-color: #e91e63; /* Rosa vibrante pero 1 tono, cero gradientes raros */
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.25);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .nav-pill-cta:hover {
-  background: linear-gradient(135deg, #c2185b, #d81b60) !important;
+  background-color: #d81b60 !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(216,27,96,0.35) !important;
+  box-shadow: 0 6px 15px rgba(216, 27, 96, 0.35) !important;
   color: white !important;
-  border-color: transparent !important;
 }
-.nav-pill-cta.activo { background: linear-gradient(135deg, #c2185b, #d81b60); }
+.nav-pill-cta.activo { 
+  background-color: #c2185b; /* Si un CTA está activo, mantenemos su identidad colorada oscureciendola */
+}
 
 /* Admin badge in navbar */
 .admin-badge {

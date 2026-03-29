@@ -5,9 +5,9 @@
   </div>
   @if (vistaActiva() !== 'admin') {
   <nav class="links">
-    <a class="nav-pill" (click)="cambiarVista('inicio')" [class.activo]="vistaActiva() === 'inicio'">🏠 Inicio</a>
-    <a class="nav-pill" (click)="cambiarVista('galeria')" [class.activo]="vistaActiva() === 'galeria'">📸 Galería</a>
-    <a class="nav-pill nav-pill-cta" (click)="cambiarVista('menu')" [class.activo]="vistaActiva() === 'menu'">🍦 Hacer Pedido</a>
+    <a class="nav-pill" (click)="cambiarVista('inicio')" [class.activo]="vistaActiva() === 'inicio'">Inicio</a>
+    <a class="nav-pill" (click)="cambiarVista('galeria')" [class.activo]="vistaActiva() === 'galeria'">Galería</a>
+    <a class="nav-pill nav-pill-cta" (click)="cambiarVista('menu')" [class.activo]="vistaActiva() === 'menu'">Hacer Pedido</a>
   </nav>
   }
   @if (vistaActiva() === 'admin') {
