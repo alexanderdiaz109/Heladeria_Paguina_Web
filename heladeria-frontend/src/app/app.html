@@ -6,6 +6,7 @@
   @if (vistaActiva() !== 'admin') {
   <nav class="links">
     <a class="nav-pill" (click)="cambiarVista('inicio')" [class.activo]="vistaActiva() === 'inicio'">🏠 Inicio</a>
+    <a class="nav-pill" (click)="cambiarVista('galeria')" [class.activo]="vistaActiva() === 'galeria'">📸 Galería</a>
     <a class="nav-pill nav-pill-cta" (click)="cambiarVista('menu')" [class.activo]="vistaActiva() === 'menu'">🍦 Hacer Pedido</a>
   </nav>
   }
@@ -44,6 +45,9 @@
       Te ofrecemos la mejor calidad para satisfacer tus antojos: Postres, Helado, Paletas, Frappés, Smoothie, Fresas con
       crema, Gomitas, Snacks y más.
     </p>
+    <button class="btn-primario hero-btn btn-galeria" style="margin-top: 15px;" (click)="cambiarVista('galeria')">
+      📸 Ver Galería de Fotos
+    </button>
   </div>
 
   <!-- Tarjetas de datos sueltas, flotando sobre el fondo de la página -->
@@ -229,6 +233,30 @@
 
 }
 
+@if (vistaActiva() === 'galeria') {
+<section id="galeria" class="galeria-section">
+  <div class="galeria-encabezado">
+    <h2 class="titulo-apartado">Nuestra Galería Mágica ✨</h2>
+    <p class="subtitulo-galeria">Un vistazo a nuestros deliciosos postres y momentos especiales.</p>
+  </div>
+
+  @if (fotosGaleria().length === 0) {
+    <div class="galeria-vacia">
+      <h3>Aún no hay fotos en nuestra galería 😅</h3>
+      <p>¡Vuelve pronto para ver nuestras delicias!</p>
+    </div>
+  } @else {
+    <div class="galeria-grid-publica">
+      @for (foto of fotosGaleria(); track foto.id) {
+        <div class="galeria-item">
+          <img [src]="foto.url_imagen" alt="Foto de Heladería Libertad" loading="lazy">
+        </div>
+      }
+    </div>
+  }
+</section>
+}
+
 @if (vistaActiva() === 'admin') {
 <section class="admin-section">
 
@@ -291,6 +319,9 @@
           <button [class.activo]="adminTab() === 'agenda'" (click)="setAdminTabYCerrar('agenda')">
             <span class="tab-icon">📅</span> Agenda
           </button>
+          <button [class.activo]="adminTab() === 'galeria'" (click)="setAdminTabYCerrar('galeria')">
+            <span class="tab-icon">📸</span> Galería
+          </button>
         </div>
       </div>
       }
@@ -298,7 +329,7 @@
       <!-- Indicador de pestaña activa -->
       <div class="admin-tab-activa-bar">
         <span class="tab-activa-chip">
-          {{ adminTab() === 'pedidos' ? '📦 Pedidos' : adminTab() === 'productos' ? '🍦 Productos' : '📅 Agenda' }}
+          {{ adminTab() === 'pedidos' ? '📦 Pedidos' : adminTab() === 'productos' ? '🍦 Productos' : adminTab() === 'agenda' ? '📅 Agenda' : '📸 Galería' }}
         </span>
       </div>
     </div>
@@ -531,6 +562,35 @@
               <span class="icon-big">📅</span>
               <p>Selecciona un día en el calendario para ver sus detalles o bloquear la fecha.</p>
             </div>
+          }
+        </div>
+      </div>
+      }
+
+      @if (adminTab() === 'galeria') {
+      <div class="admin-seccion-galeria">
+        <div class="tab-header">
+          <h3>Administrar Galería 📸</h3>
+          <div class="subidor">
+            <label class="btn-primario" [class.btn-disabled]="subiendoFotoGaleria()" style="cursor: pointer;">
+              <input type="file" accept="image/*" (change)="subirFotoGaleria($event)" [disabled]="subiendoFotoGaleria()" style="display: none;">
+              {{ subiendoFotoGaleria() ? '⏳ Subiendo foto...' : '+ Subir Nueva Foto' }}
+            </label>
+          </div>
+        </div>
+
+        <div class="grid-galeria-admin">
+          @for (foto of fotosGaleria(); track foto.id) {
+          <div class="tarjeta-foto-admin">
+            <img [src]="foto.url_imagen" alt="Foto Galería">
+            <button class="btn-rechazar" (click)="eliminarFotoGaleria(foto.id)" [disabled]="subiendoFotoGaleria()" style="width: 100%; margin-top: 8px;">
+              🗑️ Eliminar
+            </button>
+          </div>
+          } @empty {
+          <div class="galeria-vacia">
+            <p>Aún no hay fotos en la galería.</p>
+          </div>
           }
         </div>
       </div>

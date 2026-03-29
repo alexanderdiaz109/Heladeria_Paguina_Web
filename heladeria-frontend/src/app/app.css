@@ -2086,3 +2086,121 @@ body {
 }
 .btn-confirmar-baja:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(229,57,53,0.4); }
 
+/* ========================================= */
+/* === ESTILOS GALERÍA DE FOTOS PÚBLICA ===  */
+/* ========================================= */
+.galeria-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 60vh;
+}
+
+.galeria-encabezado {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.subtitulo-galeria {
+  color: #666;
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+
+.galeria-grid-publica {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  justify-content: center;
+}
+
+.galeria-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 1 / 1;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.galeria-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.galeria-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.galeria-item:hover img {
+  transform: scale(1.05);
+}
+
+.galeria-vacia {
+  text-align: center;
+  padding: 50px 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.galeria-vacia h3 {
+  color: #e91e63;
+  margin-bottom: 10px;
+}
+
+.galeria-vacia p {
+  color: #666;
+}
+
+.btn-galeria {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+
+/* ========================================= */
+/* === ESTILOS GALERÍA ADMIN === */
+/* ========================================= */
+.admin-seccion-galeria {
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.grid-galeria-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.tarjeta-foto-admin {
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 12px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-foto-admin img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+

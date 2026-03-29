@@ -16,9 +16,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 })
 export class App implements OnInit {
   // === CONTROL DE VISTAS (PÁGINAS) ===
-  vistaActiva = signal<'inicio' | 'menu' | 'admin'>('inicio');
+  vistaActiva = signal<'inicio' | 'menu' | 'admin' | 'galeria'>('inicio');
 
-  cambiarVista(nuevaVista: 'inicio' | 'menu') {
+  cambiarVista(nuevaVista: 'inicio' | 'menu' | 'galeria') {
     this.vistaActiva.set(nuevaVista);
     window.scrollTo(0, 0); // Sube la pantalla hasta arriba al cambiar de vista
   }
@@ -141,13 +141,13 @@ export class App implements OnInit {
   claveSecreta = 'helado123'; // Cambia esto después
 
   // Control de Pestañas (Tabs)
-  adminTab = signal<'pedidos' | 'productos' | 'agenda'>('pedidos');
+  adminTab = signal<'pedidos' | 'productos' | 'agenda' | 'galeria'>('pedidos');
 
   // Menú hamburguesa del admin
   menuAdminAbierto = signal<boolean>(false);
   toggleMenuAdmin() { this.menuAdminAbierto.set(!this.menuAdminAbierto()); }
 
-  setAdminTabYCerrar(tab: 'pedidos' | 'productos' | 'agenda') {
+  setAdminTabYCerrar(tab: 'pedidos' | 'productos' | 'agenda' | 'galeria') {
     this.setAdminTab(tab);
     this.menuAdminAbierto.set(false);
   }
@@ -245,13 +245,15 @@ export class App implements OnInit {
   refrescarTodoManual() {
     if (this.adminTab() === 'pedidos') this.cargarPedidos();
     if (this.adminTab() === 'productos') this.cargarProductosCrud();
+    if (this.adminTab() === 'galeria') this.cargarGaleria();
   }
 
   // ¡ESTA ES LA FUNCIÓN QUE HACE QUE CAMBIEN LAS PESTAÑAS!
-  setAdminTab(tab: 'pedidos' | 'productos' | 'agenda') {
+  setAdminTab(tab: 'pedidos' | 'productos' | 'agenda' | 'galeria') {
     this.adminTab.set(tab);
     if (tab === 'pedidos') this.cargarPedidos();
     if (tab === 'productos') this.cargarProductosCrud();
+    if (tab === 'galeria') this.cargarGaleria();
   }
 
   // --- GESTIÓN DE PEDIDOS ---
@@ -486,7 +488,71 @@ export class App implements OnInit {
     return todos.filter(p => p.categoria === categoria);
   });
 
-  // === LÓGICA DEL CARRITO ===
+  // ==========================================
+  // === LÓGICA DE GALERÍA DE FOTOS ===
+  // ==========================================
+  fotosGaleria = signal<any[]>([]);
+  subiendoFotoGaleria = signal<boolean>(false);
+
+  // 1. Traer las fotos de la base de datos
+  async cargarGaleria() {
+    const { data, error } = await supabase
+      .from('galeria')
+      .select('*')
+      .order('fecha_creacion', { ascending: false }); // Las más nuevas primero
+    
+    if (data) {
+      this.fotosGaleria.set(data);
+    }
+  }
+
+  // 2. Subir una foto nueva
+  async subirFotoGaleria(event: any) {
+    const archivo = event.target.files[0];
+    if (!archivo) return;
+
+    this.subiendoFotoGaleria.set(true);
+    
+    // Crear un nombre único para que no choquen los archivos
+    const extension = archivo.name.split('.').pop();
+    const nombreUnico = `${Date.now()}.${extension}`;
+
+    // A. Subir el archivo al Storage (Asegúrate que se llame 'galeria-heladeria')
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('galeria-heladeria')
+      .upload(nombreUnico, archivo);
+
+    if (uploadError) {
+       // Usamos un alert temporal, idealmente luego podríamos usar custom modal
+      alert('Hubo un error al subir la imagen: ' + uploadError.message);
+      this.subiendoFotoGaleria.set(false);
+      return;
+    }
+
+    // B. Obtener el link público de la foto
+    const { data: { publicUrl } } = supabase.storage
+      .from('galeria-heladeria')
+      .getPublicUrl(nombreUnico);
+
+    // C. Guardar ese link en nuestra nueva tabla SQL
+    await supabase.from('galeria').insert([
+      { url_imagen: publicUrl }
+    ]);
+
+    this.subiendoFotoGaleria.set(false);
+    this.cargarGaleria(); // Recargar la lista para ver la foto nueva
+  }
+
+  // 3. Eliminar una foto
+  async eliminarFotoGaleria(id: number) {
+    const confirmar = confirm('¿Seguro que deseas borrar esta foto de la galería?');
+    if (!confirmar) return;
+
+    await supabase.from('galeria').delete().eq('id', id);
+    this.cargarGaleria();
+  }
+
+  // === FECHAS Y HORARIOS (Lógica original de Agenda) ===
   carrito = signal<any[]>([]);
   cantidadCarrito = computed(() => this.carrito().reduce((total, item) => total + item.cantidad, 0));
   totalCarrito = computed(() => this.carrito().reduce((total, item) => total + (item.precio * item.cantidad), 0));
@@ -754,6 +820,7 @@ export class App implements OnInit {
     // Cargamos todo para el menú público y el calendario
     this.cargarFechasBloqueadas();
     this.cargarProductosMenu();
+    this.cargarGaleria();
   }
 
   // === ADMIN: BLOQUEAR FECHAS ===
