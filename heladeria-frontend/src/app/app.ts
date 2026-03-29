@@ -24,7 +24,39 @@ export class App implements OnInit {
   }
 
   todoLosProductos = signal<any[]>([]);
-  toppingsDisponibles = signal<any[]>([]); // Separados del catálogo principal
+
+  // === TOPPINGS POR CATEGORÍA (hardcodeados) ===
+  toppingSodaItaliana: any[] = [
+    { id: 'top-tapioca', nombre: 'Tapioca', precio: 10 },
+    { id: 'top-fresa', nombre: 'Fresa', precio: 10 },
+    { id: 'top-blueberry', nombre: 'Blueberry', precio: 10 },
+    { id: 'top-mango', nombre: 'Mango', precio: 10 },
+    { id: 'top-kiwi', nombre: 'Kiwi', precio: 10 },
+  ];
+
+  toppingPaletasCubiertas: any[] = [
+    { id: 'top-coco', nombre: 'Coco', precio: 10 },
+    { id: 'top-chocokrispis', nombre: 'Choco Krispis', precio: 10 },
+    { id: 'top-chocoretas', nombre: 'Chocoretas', precio: 10 },
+    { id: 'top-kranky', nombre: 'Kranky', precio: 10 },
+    { id: 'top-chispas-choco', nombre: 'Chispas de Chocolate', precio: 10 },
+    { id: 'top-chispas-colores', nombre: 'Chispas de Colores', precio: 10 },
+  ];
+
+  // Categorías que tienen toppings (comparación en minúsculas)
+  categoriaConToppings(categoriaOriginal: string): any[] {
+    const cat = (categoriaOriginal || '').toLowerCase();
+    if (cat.includes('soda italiana')) return this.toppingSodaItaliana;
+    if (cat.includes('paletas cubiertas')) return this.toppingPaletasCubiertas;
+    return [];
+  }
+
+  // Toppings del producto que se está personalizando
+  toppingsDelProducto = computed(() => {
+    const prod = this.productoPersonalizando();
+    if (!prod) return [];
+    return this.categoriaConToppings(prod.categoriaOriginal || prod.categoria);
+  });
 
   // Estado para el Modal de Personalización
   productoPersonalizando = signal<any | null>(null);
@@ -39,8 +71,15 @@ export class App implements OnInit {
   });
 
   abrirPersonalizacion(producto: any) {
+    const toppings = this.categoriaConToppings(producto.categoriaOriginal || producto.categoria);
+    if (toppings.length === 0) {
+      // Sin toppings → agregar directo al carrito
+      this.agregarAlCarrito(producto);
+      return;
+    }
+    // Con toppings → abrir modal para personalizar
     this.productoPersonalizando.set(producto);
-    this.toppingsElegidos.set([]); // Resetear selección
+    this.toppingsElegidos.set([]);
   }
 
   cerrarPersonalizacion() {
@@ -740,26 +779,26 @@ export class App implements OnInit {
     }
 
     const productos = data || [];
-    const soloToppings: any[] = [];
     const productosNormales: any[] = [];
 
     // Agrupamos categorías que queremos unificar en el filtro
     productos.forEach((producto: any) => {
-      // Si la categoría contiene 'topping', lo mandamos a los extras secretos.
+      // Si la categoría contiene 'topping', lo ignoramos (ya no se usan toppings de BD)
       if (producto.categoria && producto.categoria.toLowerCase().includes('topping')) {
-        soloToppings.push(producto);
-        return; // Detenemos aquí, NO se añade al catálogo general
+        return; // Ignorar productos tipo topping de la BD
       }
+
+      // Guardamos la categoría original antes de unificar
+      const categoriaOriginal = producto.categoria;
 
       const categoriasParaUnir = ['Helado', 'Paletas Cubiertas', 'Gomipaletas', 'Paletas'];
       if (categoriasParaUnir.includes(producto.categoria)) {
-        productosNormales.push({ ...producto, categoria: 'Helados y Paletas' });
+        productosNormales.push({ ...producto, categoriaOriginal, categoria: 'Helados y Paletas' });
       } else {
-        productosNormales.push(producto);
+        productosNormales.push({ ...producto, categoriaOriginal });
       }
     });
 
-    this.toppingsDisponibles.set(soloToppings);
     this.todoLosProductos.set(productosNormales);
 
     // Sacamos las categorías únicas para los botones de filtro

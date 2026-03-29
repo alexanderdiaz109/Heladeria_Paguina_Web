@@ -628,13 +628,13 @@
       </div>
     </div>
 
-    @if (toppingsDisponibles().length > 0) {
+    @if (toppingsDelProducto().length > 0) {
     <div class="toppings-seccion">
       <p class="titulo-toppings">¿Deseas agregar Toppings?</p>
-      <small class="sub-toppings">Puedes agregar los extras que gustes 😊</small>
+      <small class="sub-toppings">Selecciona los extras que quieras 😋</small>
       
       <div class="toppings-list">
-        @for (topping of toppingsDisponibles(); track topping.id) {
+        @for (topping of toppingsDelProducto(); track topping.id) {
         <label class="topping-item" [class.seleccionado]="toppingsElegidos().includes(topping)">
           <input type="checkbox"
                  [checked]="toppingsElegidos().includes(topping)" 
