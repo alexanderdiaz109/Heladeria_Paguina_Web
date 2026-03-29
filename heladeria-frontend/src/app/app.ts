@@ -103,10 +103,11 @@ export class App implements OnInit {
     if (!prodBase) return;
 
     const toppings = this.toppingsElegidos();
+    const catOriginal = prodBase.categoriaOriginal || prodBase.categoria;
     
     // Si no hay toppings, usa el ID normal. Si hay, crea un ID compuesto único para esta combinación.
     let configId = prodBase.id;
-    let nombreCambiado = prodBase.nombre;
+    let nombreCambiado = `[${catOriginal}] ${prodBase.nombre}`;
     let sumaPrecioExtra = 0;
 
     if (toppings.length > 0) {
@@ -115,7 +116,7 @@ export class App implements OnInit {
       configId = `${prodBase.id}-${idsOrdenados.join('-')}`;
       
       const nombresToppings = toppings.map(t => t.nombre).join(', ');
-      nombreCambiado = `${prodBase.nombre} (+${nombresToppings})`;
+      nombreCambiado = `[${catOriginal}] ${prodBase.nombre} (+${nombresToppings})`;
       
       sumaPrecioExtra = toppings.reduce((acc, t) => acc + t.precio, 0);
     }
@@ -627,14 +628,23 @@ export class App implements OnInit {
 
   // === ACCIONES ===
   agregarAlCarrito(producto: any) {
+    // Si el nombre aún no tiene el prefijo [Categoría], lo agregamos
+    const catOriginal = producto.categoriaOriginal || producto.categoria;
+    let nombreFinal = producto.nombre;
+    if (!nombreFinal.startsWith('[')) {
+      nombreFinal = `[${catOriginal}] ${nombreFinal}`;
+    }
+
+    const productoConCategoria = { ...producto, nombre: nombreFinal };
+
     this.carrito.update(items => {
-      const index = items.findIndex(item => item.id === producto.id);
+      const index = items.findIndex(item => item.id === productoConCategoria.id);
       if (index !== -1) {
         const nuevos = [...items];
         nuevos[index].cantidad++;
         return nuevos;
       }
-      return [...items, { ...producto, cantidad: 1 }];
+      return [...items, { ...productoConCategoria, cantidad: 1 }];
     });
   }
 

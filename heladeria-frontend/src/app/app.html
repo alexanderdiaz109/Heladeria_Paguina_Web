@@ -326,7 +326,7 @@
 
           <div class="productos-lista-admin">
             @for (item of pedido.productos; track item.id) {
-            <p>- {{ item.cantidad }}x {{ item.nombre }}</p>
+            <p>- {{ item.cantidad }}x <strong>{{ item.nombre }}</strong> <span class="precio-item">(${{ item.precio }})</span></p>
             }
           </div>
 
@@ -513,7 +513,7 @@
                   <p class="tel-text">📞 {{ pedido.cliente_telefono || 'Sin tel.' }}</p>
                   <ul class="micro-resumen">
                     @for (prod of pedido.productos; track prod.id) {
-                      <li>{{ prod.cantidad }}x {{ prod.nombre }}</li>
+                      <li>{{ prod.cantidad }}x <strong>{{ prod.nombre }}</strong> (${{ prod.precio }})</li>
                     }
                   </ul>
                   <button class="btn-terminar" (click)="cambiarEstatusPedido(pedido, 'entregado')">
