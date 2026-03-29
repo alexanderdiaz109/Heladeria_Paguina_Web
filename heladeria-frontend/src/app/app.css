@@ -2050,3 +2050,39 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(67,160,71,0.4);
 }
+
+/* === MODAL DE CONFIRMACIÓN (DAR DE BAJA) === */
+.modal-confirmar { max-width: 320px; }
+.confirmar-titulo { color: #e65100 !important; }
+.confirmar-botones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 4px;
+}
+.btn-cancelar-confirm {
+  background: #f5f5f5;
+  color: #555;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-cancelar-confirm:hover { background: #e0e0e0; }
+.btn-confirmar-baja {
+  background: linear-gradient(135deg, #e53935, #ef5350);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(229,57,53,0.3);
+  transition: all 0.2s;
+}
+.btn-confirmar-baja:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(229,57,53,0.4); }
+

@@ -693,3 +693,37 @@
   </div>
 </div>
 }
+
+<!-- ✅ Modal: Producto guardado exitosamente -->
+@if (mostrarProductoExitoModal()) {
+<div class="modal-fondo" (click)="mostrarProductoExitoModal.set(false)">
+  <div class="modal-exito" (click)="$event.stopPropagation()">
+    <div class="exito-icono">🍦</div>
+    <h3 class="exito-titulo">¡Guardado!</h3>
+    <p class="exito-texto">El producto se ha guardado exitosamente en el catálogo.</p>
+    <button class="btn-primario exito-btn" (click)="mostrarProductoExitoModal.set(false)">
+      Entendido 👍
+    </button>
+  </div>
+</div>
+}
+
+<!-- 🗑️ Modal: Confirmar dar de baja -->
+@if (mostrarConfirmBajaModal()) {
+<div class="modal-fondo" (click)="cancelarBajaProducto()">
+  <div class="modal-exito modal-confirmar" (click)="$event.stopPropagation()">
+    <div class="exito-icono">⚠️</div>
+    <h3 class="exito-titulo confirmar-titulo">¿Dar de baja?</h3>
+    <p class="exito-texto">Este producto dejará de mostrarse en el menú para los clientes.</p>
+    <p class="exito-contacto">Puedes reactivarlo desde la base de datos en Supabase.</p>
+    <div class="confirmar-botones">
+      <button class="btn-cancelar-confirm" (click)="cancelarBajaProducto()">
+        Cancelar
+      </button>
+      <button class="btn-confirmar-baja" (click)="confirmarBajaProducto()">
+        Sí, dar de baja 🗑️
+      </button>
+    </div>
+  </div>
+</div>
+}

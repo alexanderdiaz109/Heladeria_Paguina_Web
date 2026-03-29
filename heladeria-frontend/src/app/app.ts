@@ -454,14 +454,27 @@ export class App implements OnInit {
 
     this.cargarProductosCrud();
     this.cerrarModalProducto();
-    alert('¡Producto guardado exitosamente! 🍦');
+    this.mostrarProductoExitoModal.set(true);
   }
 
   async darDeBajaProducto(id: string) {
-    if (confirm('¿Seguro que quieres dar de baja este producto?')) {
+    this.productoBajaId.set(id);
+    this.mostrarConfirmBajaModal.set(true);
+  }
+
+  async confirmarBajaProducto() {
+    const id = this.productoBajaId();
+    if (id) {
       await supabase.from('productos').update({ activo: false }).eq('id', id);
       this.cargarProductosCrud();
     }
+    this.mostrarConfirmBajaModal.set(false);
+    this.productoBajaId.set('');
+  }
+
+  cancelarBajaProducto() {
+    this.mostrarConfirmBajaModal.set(false);
+    this.productoBajaId.set('');
   }
   categorias = signal<string[]>([]);
   categoriaSeleccionada = signal<string>('TODOS');
@@ -592,6 +605,11 @@ export class App implements OnInit {
   // === LÓGICA DE LA VISTA DEL CARRITO ===
   mostrarCarritoModal = signal<boolean>(false);
   mostrarExitoModal = signal<boolean>(false);
+
+  // Modales CRUD productos (admin)
+  mostrarProductoExitoModal = signal<boolean>(false);
+  mostrarConfirmBajaModal = signal<boolean>(false);
+  productoBajaId = signal<string>('');
 
   cerrarExitoModal() {
     this.mostrarExitoModal.set(false);
