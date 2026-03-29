@@ -107,7 +107,7 @@ export class App implements OnInit {
     
     // Si no hay toppings, usa el ID normal. Si hay, crea un ID compuesto único para esta combinación.
     let configId = prodBase.id;
-    let nombreCambiado = `[${catOriginal}] ${prodBase.nombre}`;
+    let nombreCambiado = `${catOriginal} de ${prodBase.nombre}`;
     let sumaPrecioExtra = 0;
 
     if (toppings.length > 0) {
@@ -116,7 +116,7 @@ export class App implements OnInit {
       configId = `${prodBase.id}-${idsOrdenados.join('-')}`;
       
       const nombresToppings = toppings.map(t => t.nombre).join(', ');
-      nombreCambiado = `[${catOriginal}] ${prodBase.nombre} (+${nombresToppings})`;
+      nombreCambiado = `${catOriginal} de ${prodBase.nombre} (+${nombresToppings})`;
       
       sumaPrecioExtra = toppings.reduce((acc, t) => acc + t.precio, 0);
     }
@@ -307,7 +307,8 @@ export class App implements OnInit {
       this.enviarWhatsAppDirecto(pedido, estatusFinal);
     } else {
       if (estatusFinal === 'agendado' || estatusFinal === 'aceptado') {
-        alert(`✅ El pedido de ${pedido.cliente_nombre} se ha agendado en el calendario.`);
+        this.agendaExitoNombre.set(pedido.cliente_nombre);
+        this.mostrarAgendaExitoModal.set(true);
         
         // Magia: Ir a la pestaña de agenda y abrir el día en automático
         let f = pedido.fecha_entrega;
@@ -596,6 +597,14 @@ export class App implements OnInit {
     this.mostrarExitoModal.set(false);
   }
 
+  // Modal de éxito al anotar en agenda (admin)
+  mostrarAgendaExitoModal = signal<boolean>(false);
+  agendaExitoNombre = signal<string>('');
+
+  cerrarAgendaExitoModal() {
+    this.mostrarAgendaExitoModal.set(false);
+  }
+
   abrirCarrito() {
     this.mostrarCarritoModal.set(true);
   }
@@ -628,11 +637,13 @@ export class App implements OnInit {
 
   // === ACCIONES ===
   agregarAlCarrito(producto: any) {
-    // Si el nombre aún no tiene el prefijo [Categoría], lo agregamos
+    // Si el nombre aún no tiene el prefijo de categoría, lo agregamos
     const catOriginal = producto.categoriaOriginal || producto.categoria;
     let nombreFinal = producto.nombre;
-    if (!nombreFinal.startsWith('[')) {
-      nombreFinal = `[${catOriginal}] ${nombreFinal}`;
+    // Solo agregar si no empieza con la categoría ya (evitar duplicados)
+    const catLower = (catOriginal || '').toLowerCase();
+    if (!nombreFinal.toLowerCase().startsWith(catLower)) {
+      nombreFinal = `${catOriginal} de ${nombreFinal}`;
     }
 
     const productoConCategoria = { ...producto, nombre: nombreFinal };

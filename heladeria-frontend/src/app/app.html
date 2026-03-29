@@ -674,3 +674,22 @@
   </div>
 </div>
 }
+
+@if (mostrarAgendaExitoModal()) {
+<div class="modal-fondo" (click)="cerrarAgendaExitoModal()">
+  <div class="modal-exito" (click)="$event.stopPropagation()">
+    <div class="exito-icono">📅</div>
+    <h3 class="exito-titulo">¡Agendado!</h3>
+    <p class="exito-nombre">{{ agendaExitoNombre() }}</p>
+    <p class="exito-texto">
+      El pedido se ha anotado exitosamente en el <strong>calendario</strong>.
+    </p>
+    <p class="exito-contacto">
+      🗓️ Puedes ver los detalles en la pestaña de <strong>Agenda</strong>. Se abrirá automáticamente el día correspondiente.
+    </p>
+    <button class="btn-primario exito-btn" (click)="cerrarAgendaExitoModal()">
+      Entendido 👍
+    </button>
+  </div>
+</div>
+}
