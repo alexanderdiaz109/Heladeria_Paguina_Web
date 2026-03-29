@@ -550,6 +550,11 @@ export class App implements OnInit {
 
   // === LÓGICA DE LA VISTA DEL CARRITO ===
   mostrarCarritoModal = signal<boolean>(false);
+  mostrarExitoModal = signal<boolean>(false);
+
+  cerrarExitoModal() {
+    this.mostrarExitoModal.set(false);
+  }
 
   abrirCarrito() {
     this.mostrarCarritoModal.set(true);
@@ -637,7 +642,7 @@ export class App implements OnInit {
     // 3. ¿QUÉ HACEMOS DESPUÉS DE GUARDAR?
     if (this.esPedidoAgendado()) {
       // === RUTA 100% WEB (PARA AGENDAS) ===
-      alert(`✅ ¡Listo ${this.nombreCliente()}!\n\nTu pedido ha sido enviado y está PENDIENTE DE CONFIRMACIÓN ⏳.\n\nNos pondremos en contacto contigo por WhatsApp al ${this.telefonoCliente()} en cuanto la heladería acepte tu solicitud.`);
+      this.mostrarExitoModal.set(true);
 
     } else {
       // === RUTA WHATSAPP (SOLO PARA "HOY" POR INMEDIATEZ) ===

@@ -200,6 +200,7 @@
     </button>
     }
   </div>
+  <p class="filtros-hint">← Desliza para ver más categorías →</p>
 
   <p style="text-align: center; color: gray;">Mostrando {{ productosFiltrados().length }} productos</p>
 
@@ -554,8 +555,8 @@
       <p class="carrito-total">Total: ${{ totalCarrito() }}</p>
     </div>
   </div>
-  <button class="btn-whatsapp" style="background-color: white; color: black;" (click)="abrirCarrito()">
-    Ver mi pedido 👁️
+  <button class="btn-ver-pedido" (click)="abrirCarrito()">
+    Ver pedido 👁️
   </button>
 </div>
 }
@@ -650,6 +651,25 @@
 
     <button class="btn-primario modal-btn btn-confirmar-perso" (click)="confirmarYAgregar()">
       Agregar al Pedido • ${{ precioTotalPersonalizado() }}
+    </button>
+  </div>
+</div>
+}
+
+@if (mostrarExitoModal()) {
+<div class="modal-fondo" (click)="cerrarExitoModal()">
+  <div class="modal-exito" (click)="$event.stopPropagation()">
+    <div class="exito-icono">✅</div>
+    <h3 class="exito-titulo">¡Pedido Enviado!</h3>
+    <p class="exito-nombre">{{ nombreCliente() || 'Cliente' }}</p>
+    <p class="exito-texto">
+      Tu pedido ha sido enviado y está <strong>pendiente de confirmación</strong> ⏳
+    </p>
+    <p class="exito-contacto">
+      📲 Nos pondremos en contacto contigo por WhatsApp al <strong>{{ telefonoCliente() }}</strong> en cuanto la heladería acepte tu solicitud.
+    </p>
+    <button class="btn-primario exito-btn" (click)="cerrarExitoModal()">
+      Entendido 👍
     </button>
   </div>
 </div>
