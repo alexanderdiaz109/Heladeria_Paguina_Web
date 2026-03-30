@@ -7,7 +7,8 @@
   <nav class="links">
     <a class="nav-pill" (click)="cambiarVista('inicio')" [class.activo]="vistaActiva() === 'inicio'">Inicio</a>
     <a class="nav-pill" (click)="cambiarVista('galeria')" [class.activo]="vistaActiva() === 'galeria'">Galería</a>
-    <a class="nav-pill nav-pill-cta" (click)="cambiarVista('menu')" [class.activo]="vistaActiva() === 'menu'">Hacer Pedido</a>
+    <a class="nav-pill nav-pill-cta" (click)="cambiarVista('menu')" [class.activo]="vistaActiva() === 'menu'">Hacer
+      Pedido</a>
   </nav>
   }
   @if (vistaActiva() === 'admin') {
@@ -40,7 +41,7 @@
   <!-- Franja superior: título y texto descriptivo sobre fondo rosado -->
   <div class="info-encabezado">
     <p class="info-label">NUESTRA HELADERÍA</p>
-    <h2 class="info-titulo">Heladería_Libertad</h2>
+    <h2 class="info-titulo">Heladería Libertad</h2>
     <p class="info-texto">
       Te ofrecemos la mejor calidad para satisfacer tus antojos: Postres, Helado, Paletas, Frappés, Smoothie, Fresas con
       crema, Gomitas, Snacks y más.
@@ -105,13 +106,14 @@
 
       @if (estaAbierta()) {
       <div class="alerta-exito">
-        <strong>✅ ¡Estamos Abiertos!</strong>
+        <strong> ¡Estamos Para Servirle!</strong>
         <span>Arma tu pedido y pasa por él. Por favor, dinos tu nombre:</span>
-        <input type="text" class="input-nombre-hoy" placeholder="Ej. Alexander" (input)="actualizarDato('nombre', $event)">
+        <input type="text" class="input-nombre-hoy" placeholder="Ej. Manuel Pech"
+          (input)="actualizarDato('nombre', $event)">
       </div>
       } @else {
       <div class="alerta-error">
-        <strong>❌ Heladería Cerrada en este momento.</strong><br>
+        <strong> Heladería Cerrada en este momento.</strong><br>
         Nuestro horario es de 6:30 p.m. a 11:00 p.m. <br>
         Aún puedes usar la pestaña "Agendar Fecha Especial" para un pedido futuro.
       </div>
@@ -174,7 +176,7 @@
           <div class="dia-vacio"></div>
           } @else {
           <button class="dia-btn" [class.seleccionado]="esMismaFecha(dia, fechaSeleccionada())"
-            [class.pasado]="esFechaPasada(dia)" [class.bloqueado]="esFechaBloqueada(dia)" 
+            [class.pasado]="esFechaPasada(dia)" [class.bloqueado]="esFechaBloqueada(dia)"
             (click)="seleccionarFecha(dia)" [disabled]="esDiaInvalido(dia)">
             {{ dia.getDate() }}
           </button>
@@ -207,7 +209,7 @@
   <div class="catalogo-container">
     @for (producto of productosFiltrados(); track producto.id) {
     <div class="producto-card">
-      <img [src]="producto.foto || producto.imagen_url || 'https://via.placeholder.com/400x300/f9ecec/d81b60?text=🍦'" 
+      <img [src]="producto.foto || producto.imagen_url || 'https://via.placeholder.com/400x300/f9ecec/d81b60?text=🍦'"
         alt="{{ producto.nombre }}"
         onerror="this.src='https://via.placeholder.com/400x300/f9ecec/d81b60?text=Libertad'">
 
@@ -237,18 +239,18 @@
   </div>
 
   @if (fotosGaleria().length === 0) {
-    <div class="galeria-vacia">
-      <h3>Aún no hay fotos en nuestra galería 😅</h3>
-      <p>¡Vuelve pronto para ver nuestras delicias!</p>
-    </div>
+  <div class="galeria-vacia">
+    <h3>Aún no hay fotos en nuestra galería 😅</h3>
+    <p>¡Vuelve pronto para ver nuestras delicias!</p>
+  </div>
   } @else {
-    <div class="galeria-grid-publica">
-      @for (foto of fotosGaleria(); track foto.id) {
-        <div class="galeria-item">
-          <img [src]="foto.url_imagen" alt="Foto de Heladería Libertad" loading="lazy">
-        </div>
-      }
+  <div class="galeria-grid-publica">
+    @for (foto of fotosGaleria(); track foto.id) {
+    <div class="galeria-item">
+      <img [src]="foto.url_imagen" alt="Foto de Heladería Libertad" loading="lazy">
     </div>
+    }
+  </div>
   }
 </section>
 }
@@ -298,9 +300,8 @@
           <button class="btn-refrescar" (click)="refrescarTodoManual()" title="Actualizar">
             🔄 Refrescar
           </button>
-          <button class="btn-refrescar" (click)="toggleAutoRefresh()"
-                  [class.auto-on]="autoRefreshOn()"
-                  [title]="autoRefreshOn() ? 'Desactivar auto' : 'Activar auto'">
+          <button class="btn-refrescar" (click)="toggleAutoRefresh()" [class.auto-on]="autoRefreshOn()"
+            [title]="autoRefreshOn() ? 'Desactivar auto' : 'Activar auto'">
             {{ autoRefreshOn() ? '⏱️ Auto ON' : '⏸️ Auto OFF' }}
           </button>
           <button class="btn-cerrar-sesion" (click)="cerrarSesionAdmin()">🚪 Salir</button>
@@ -325,7 +326,8 @@
       <!-- Indicador de pestaña activa -->
       <div class="admin-tab-activa-bar">
         <span class="tab-activa-chip">
-          {{ adminTab() === 'pedidos' ? '📦 Pedidos' : adminTab() === 'productos' ? '🍦 Productos' : adminTab() === 'agenda' ? '📅 Agenda' : '📸 Galería' }}
+          {{ adminTab() === 'pedidos' ? '📦 Pedidos' : adminTab() === 'productos' ? '🍦 Productos' : adminTab() ===
+          'agenda' ? '📅 Agenda' : '📸 Galería' }}
         </span>
       </div>
     </div>
@@ -353,7 +355,8 @@
 
           <div class="productos-lista-admin">
             @for (item of pedido.productos; track item.id) {
-            <p>- {{ item.cantidad }}x <strong>{{ item.nombre }}</strong> <span class="precio-item">(${{ item.precio }})</span></p>
+            <p>- {{ item.cantidad }}x <strong>{{ item.nombre }}</strong> <span class="precio-item">(${{ item.precio
+                }})</span></p>
             }
           </div>
 
@@ -364,13 +367,18 @@
 
           <div class="pedido-acciones">
             @if (pedido.estatus === 'pendiente') {
-            <button class="btn-aceptar" (click)="cambiarEstatusPedido(pedido, 'aceptado', false)">📅 Anotar en Agenda</button>
-            <button class="btn-whats" (click)="cambiarEstatusPedido(pedido, 'aceptado', true)">📲 Notificar por Whats (Aceptar)</button>
-            <button class="btn-rechazar" (click)="cambiarEstatusPedido(pedido, 'rechazado', true)">❌ Rechazar por Whats</button>
+            <button class="btn-aceptar" (click)="cambiarEstatusPedido(pedido, 'aceptado', false)">📅 Anotar en
+              Agenda</button>
+            <button class="btn-whats" (click)="cambiarEstatusPedido(pedido, 'aceptado', true)">📲 Notificar por Whats
+              (Aceptar)</button>
+            <button class="btn-rechazar" (click)="cambiarEstatusPedido(pedido, 'rechazado', true)">❌ Rechazar por
+              Whats</button>
             }
             @else if (pedido.estatus === 'aceptado' || pedido.estatus === 'agendado') {
-            <button class="btn-whats" (click)="enviarWhatsAppDirecto(pedido, pedido.estatus)">📲 Enviar WhatsApp</button>
-            <button class="btn-entregar" (click)="cambiarEstatusPedido(pedido, 'entregado', false)">🛵 Marcar Entregado / Finalizado</button>
+            <button class="btn-whats" (click)="enviarWhatsAppDirecto(pedido, pedido.estatus)">📲 Enviar
+              WhatsApp</button>
+            <button class="btn-entregar" (click)="cambiarEstatusPedido(pedido, 'entregado', false)">🛵 Marcar Entregado
+              / Finalizado</button>
             }
             @else if (pedido.estatus === 'rechazado') {
             <p class="texto-rechazado">Pedido declinado.</p>
@@ -440,24 +448,24 @@
                 <input type="file" accept="image/*" (change)="seleccionarFoto($event)">
                 📸 Seleccionar Foto
               </label>
-              <p style="font-size: 0.8rem; color: #666; margin: 5px 0 0;">Selecciona una imagen desde tu PC o celular.</p>
+              <p style="font-size: 0.8rem; color: #666; margin: 5px 0 0;">Selecciona una imagen desde tu PC o celular.
+              </p>
             </div>
 
             <input type="text" name="nombre" [ngModel]="productoEnEdicion()?.nombre"
               placeholder="Nombre (Ej: Frappé Oreo)" required>
 
-            <input type="text" name="categoria" [ngModel]="productoEnEdicion()?.categoria" 
-              list="categorias-existentes" placeholder="Selecciona o escribe una Categoría..." 
-              required class="input-select">
-              
+            <input type="text" name="categoria" [ngModel]="productoEnEdicion()?.categoria" list="categorias-existentes"
+              placeholder="Selecciona o escribe una Categoría..." required class="input-select">
+
             <datalist id="categorias-existentes">
               @for (cat of categoriasAdmin(); track cat) {
-                <option [value]="cat"></option>
+              <option [value]="cat"></option>
               }
             </datalist>
 
-            <input type="number" name="precio" [ngModel]="productoEnEdicion()?.precio"
-              placeholder="Precio ($)" required>
+            <input type="number" name="precio" [ngModel]="productoEnEdicion()?.precio" placeholder="Precio ($)"
+              required>
 
             <div class="form-footer">
               <button type="button" class="btn-cancelar" (click)="cerrarModalProducto()">Cancelar</button>
@@ -488,16 +496,13 @@
             @if (dia === null) {
             <div class="dia-vacio"></div>
             } @else {
-            <button class="dia-btn" 
-              [class.seleccionado]="esMismaFecha(dia, fechaSeleccionada())"
-              [class.bloqueado]="esFechaBloqueada(dia)"
-              [class.pasado]="esFechaPasada(dia)"
-              [class.con-pedidos]="pedidosAgendadosCount()[formatearFechaDB(dia)] > 0"
-              (click)="seleccionarFecha(dia)">
+            <button class="dia-btn" [class.seleccionado]="esMismaFecha(dia, fechaSeleccionada())"
+              [class.bloqueado]="esFechaBloqueada(dia)" [class.pasado]="esFechaPasada(dia)"
+              [class.con-pedidos]="pedidosAgendadosCount()[formatearFechaDB(dia)] > 0" (click)="seleccionarFecha(dia)">
               <span class="dia-num">{{ dia.getDate() }}</span>
               <!-- Circulito de pedidos -->
               @if (pedidosAgendadosCount()[formatearFechaDB(dia)]) {
-                <span class="punto-pedidos">{{ pedidosAgendadosCount()[formatearFechaDB(dia)] }}</span>
+              <span class="punto-pedidos">{{ pedidosAgendadosCount()[formatearFechaDB(dia)] }}</span>
               }
             </button>
             }
@@ -508,56 +513,55 @@
         <!-- Derecha: Detalles del Día Seleccionado -->
         <div class="agenda-detalle-panel">
           @if (fechaSeleccionada()) {
-            
-            <div class="detalle-header">
-              <h3>Día: {{ fechaSeleccionada()?.getDate() }} de {{ nombreMes(fechaSeleccionada()!) }}</h3>
-              
-              @if (!esFechaPasada(fechaSeleccionada()!)) {
-                <button class="btn-bloquear" 
-                        [class.btn-desbloquear]="esFechaBloqueada(fechaSeleccionada()!)"
-                        (click)="toggleBloqueoFecha(fechaSeleccionada()!)">
-                  {{ esFechaBloqueada(fechaSeleccionada()!) ? '🟩 Abrir Día' : '🛑 Bloquear Día' }}
-                </button>
-              }
-            </div>
 
-            @if (esFechaBloqueada(fechaSeleccionada()!)) {
-              <div class="alerta-error">
-                <strong>Día Bloqueado</strong><br>
-                Los clientes no pueden agendar pedidos para hoy.
-              </div>
+          <div class="detalle-header">
+            <h3>Día: {{ fechaSeleccionada()?.getDate() }} de {{ nombreMes(fechaSeleccionada()!) }}</h3>
+
+            @if (!esFechaPasada(fechaSeleccionada()!)) {
+            <button class="btn-bloquear" [class.btn-desbloquear]="esFechaBloqueada(fechaSeleccionada()!)"
+              (click)="toggleBloqueoFecha(fechaSeleccionada()!)">
+              {{ esFechaBloqueada(fechaSeleccionada()!) ? '🟩 Abrir Día' : '🛑 Bloquear Día' }}
+            </button>
             }
+          </div>
 
-            <h4 class="subtitulo-pedidos-dia">Pedidos para este día ({{ pedidosDelDia().length }})</h4>
-            
-            <div class="pedidos-dia-grid">
-              @for (pedido of pedidosDelDia(); track pedido.id) {
-                <div class="pedido-dia-card">
-                  <div class="pedido-dia-head">
-                    <strong>{{ pedido.cliente_nombre }}</strong>
-                    <span class="hora-tag">{{ pedido.hora_entrega || 'Sin hora' }}</span>
-                  </div>
-                  <p class="tel-text">📞 {{ pedido.cliente_telefono || 'Sin tel.' }}</p>
-                  <ul class="micro-resumen">
-                    @for (prod of pedido.productos; track prod.id) {
-                      <li>{{ prod.cantidad }}x <strong>{{ prod.nombre }}</strong> (${{ prod.precio }})</li>
-                    }
-                  </ul>
-                  <button class="btn-terminar" (click)="cambiarEstatusPedido(pedido, 'entregado')">
-                    ✅ Marcar Completado
-                  </button>
-                </div>
-              }
-              @empty {
-                <p class="empty-msg">No hay pedidos agendados en esta fecha.</p>
-              }
+          @if (esFechaBloqueada(fechaSeleccionada()!)) {
+          <div class="alerta-error">
+            <strong>Día Bloqueado</strong><br>
+            Los clientes no pueden agendar pedidos para hoy.
+          </div>
+          }
+
+          <h4 class="subtitulo-pedidos-dia">Pedidos para este día ({{ pedidosDelDia().length }})</h4>
+
+          <div class="pedidos-dia-grid">
+            @for (pedido of pedidosDelDia(); track pedido.id) {
+            <div class="pedido-dia-card">
+              <div class="pedido-dia-head">
+                <strong>{{ pedido.cliente_nombre }}</strong>
+                <span class="hora-tag">{{ pedido.hora_entrega || 'Sin hora' }}</span>
+              </div>
+              <p class="tel-text">📞 {{ pedido.cliente_telefono || 'Sin tel.' }}</p>
+              <ul class="micro-resumen">
+                @for (prod of pedido.productos; track prod.id) {
+                <li>{{ prod.cantidad }}x <strong>{{ prod.nombre }}</strong> (${{ prod.precio }})</li>
+                }
+              </ul>
+              <button class="btn-terminar" (click)="cambiarEstatusPedido(pedido, 'entregado')">
+                ✅ Marcar Completado
+              </button>
             </div>
+            }
+            @empty {
+            <p class="empty-msg">No hay pedidos agendados en esta fecha.</p>
+            }
+          </div>
 
           } @else {
-            <div class="empty-panel">
-              <span class="icon-big">📅</span>
-              <p>Selecciona un día en el calendario para ver sus detalles o bloquear la fecha.</p>
-            </div>
+          <div class="empty-panel">
+            <span class="icon-big">📅</span>
+            <p>Selecciona un día en el calendario para ver sus detalles o bloquear la fecha.</p>
+          </div>
           }
         </div>
       </div>
@@ -569,7 +573,8 @@
           <h3>Administrar Galería 📸</h3>
           <div class="subidor">
             <label class="btn-primario" [class.btn-disabled]="subiendoFotoGaleria()" style="cursor: pointer;">
-              <input type="file" accept="image/*" (change)="subirFotoGaleria($event)" [disabled]="subiendoFotoGaleria()" style="display: none;">
+              <input type="file" accept="image/*" (change)="subirFotoGaleria($event)" [disabled]="subiendoFotoGaleria()"
+                style="display: none;">
               {{ subiendoFotoGaleria() ? '⏳ Subiendo foto...' : '+ Subir Nueva Foto' }}
             </label>
           </div>
@@ -579,7 +584,8 @@
           @for (foto of fotosGaleria(); track foto.id) {
           <div class="tarjeta-foto-admin">
             <img [src]="foto.url_imagen" alt="Foto Galería">
-            <button class="btn-rechazar" (click)="eliminarFotoGaleria(foto.id)" [disabled]="subiendoFotoGaleria()" style="width: 100%; margin-top: 8px;">
+            <button class="btn-rechazar" (click)="eliminarFotoGaleria(foto.id)" [disabled]="subiendoFotoGaleria()"
+              style="width: 100%; margin-top: 8px;">
               🗑️ Eliminar
             </button>
           </div>
@@ -642,8 +648,8 @@
     </div>
 
     <div class="carrito-datos-cliente">
-      <input type="text" class="input-nombre" placeholder="Tu nombre o cómo te llamamos"
-        [value]="nombreCliente()" (input)="actualizarNombre($event)">
+      <input type="text" class="input-nombre" placeholder="Tu nombre o cómo te llamamos" [value]="nombreCliente()"
+        (input)="actualizarNombre($event)">
       <input type="tel" class="input-nombre" placeholder="Tu número de WhatsApp (10 dígitos)"
         [value]="telefonoCliente()" (input)="actualizarTelefono($event)" style="margin-top: 10px;">
     </div>
@@ -675,9 +681,9 @@
 
     <!-- Info del producto base -->
     <div class="personalizacion-base">
-      <img [src]="productoPersonalizando().foto || 'https://via.placeholder.com/150x150/fdf2f5/d81b60?text=🍦'" 
-           alt="{{ productoPersonalizando().nombre }}"
-           onerror="this.src='https://via.placeholder.com/150x150/fdf2f5/d81b60?text=🍦'">
+      <img [src]="productoPersonalizando().foto || 'https://via.placeholder.com/150x150/fdf2f5/d81b60?text=🍦'"
+        alt="{{ productoPersonalizando().nombre }}"
+        onerror="this.src='https://via.placeholder.com/150x150/fdf2f5/d81b60?text=🍦'">
       <div class="info-base">
         <h4>{{ productoPersonalizando().nombre }}</h4>
         <p class="precio-base">${{ productoPersonalizando().precio }} base</p>
@@ -688,13 +694,11 @@
     <div class="toppings-seccion">
       <p class="titulo-toppings">¿Deseas agregar Toppings?</p>
       <small class="sub-toppings">Selecciona los extras que quieras 😋</small>
-      
+
       <div class="toppings-list">
         @for (topping of toppingsDelProducto(); track topping.id) {
         <label class="topping-item" [class.seleccionado]="toppingsElegidos().includes(topping)">
-          <input type="checkbox"
-                 [checked]="toppingsElegidos().includes(topping)" 
-                 (change)="toggleTopping(topping)">
+          <input type="checkbox" [checked]="toppingsElegidos().includes(topping)" (change)="toggleTopping(topping)">
           <div class="topping-info">
             <span class="topping-nombre">{{ topping.nombre }}</span>
             <span class="topping-precio">+${{ topping.precio }}</span>
@@ -722,7 +726,8 @@
       Tu pedido ha sido enviado y está <strong>pendiente de confirmación</strong> ⏳
     </p>
     <p class="exito-contacto">
-      📲 Nos pondremos en contacto contigo por WhatsApp al <strong>{{ telefonoCliente() }}</strong> en cuanto la heladería acepte tu solicitud.
+      📲 Nos pondremos en contacto contigo por WhatsApp al <strong>{{ telefonoCliente() }}</strong> en cuanto la
+      heladería acepte tu solicitud.
     </p>
     <button class="btn-primario exito-btn" (click)="cerrarExitoModal()">
       Entendido 👍
@@ -741,7 +746,8 @@
       El pedido se ha anotado exitosamente en el <strong>calendario</strong>.
     </p>
     <p class="exito-contacto">
-      🗓️ Puedes ver los detalles en la pestaña de <strong>Agenda</strong>. Se abrirá automáticamente el día correspondiente.
+      🗓️ Puedes ver los detalles en la pestaña de <strong>Agenda</strong>. Se abrirá automáticamente el día
+      correspondiente.
     </p>
     <button class="btn-primario exito-btn" (click)="cerrarAgendaExitoModal()">
       Entendido 👍
