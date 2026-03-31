@@ -113,6 +113,8 @@ body {
   border-bottom: 2px solid #ffdce5;
   box-shadow: 0 2px 20px rgba(216,27,96,0.1);
   position: relative; /* Para que el dropdown absoluto se posicione desde el borde inferior si fuera el caso, aunque en navbar-admin fixed es otra cosa */
+  flex-direction: row !important; /* Prevenir que el media query móvil lo vuelva column */
+  justify-content: space-between !important;
   flex-wrap: nowrap; /* Mantener logo e iconos admin en 1 misma línea en móvil */
   padding: 10px 15px; /* Reducido levemente el padding para dar espacio a botones extras si el cel es muy angosto */
 }
