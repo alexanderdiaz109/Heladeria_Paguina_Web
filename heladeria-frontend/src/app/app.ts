@@ -146,29 +146,36 @@ export class App implements OnInit {
 
   todoLosProductos = signal<any[]>([]);
 
-  // === TOPPINGS POR CATEGORÍA (hardcodeados) ===
-  toppingSodaItaliana: any[] = [
-    { id: 'top-tapioca', nombre: 'Tapioca', precio: 10 },
-    { id: 'top-fresa', nombre: 'Fresa', precio: 10 },
-    { id: 'top-blueberry', nombre: 'Blueberry', precio: 10 },
-    { id: 'top-mango', nombre: 'Mango', precio: 10 },
-    { id: 'top-kiwi', nombre: 'Kiwi', precio: 10 },
+  // === OPCIONES DE PERSONALIZACIÓN POR CATEGORÍA ===
+  saboresPaletasCubiertas: any[] = [
+    { id: 'sabor-arroz', nombre: 'Arroz', precio: 0 },
+    { id: 'sabor-cacahuate', nombre: 'Cacahuate', precio: 0 },
+    { id: 'sabor-coco', nombre: 'Coco', precio: 0 },
+    { id: 'sabor-limon', nombre: 'Limón', precio: 0 },
+    { id: 'sabor-mango', nombre: 'Mango Piña', precio: 0 },
+    { id: 'sabor-sandia', nombre: 'Sandía', precio: 0 },
+    { id: 'sabor-uva', nombre: 'Uva', precio: 0 },
   ];
 
-  toppingPaletasCubiertas: any[] = [
-    { id: 'top-coco', nombre: 'Coco', precio: 10 },
-    { id: 'top-chocokrispis', nombre: 'Choco Krispis', precio: 10 },
-    { id: 'top-chocoretas', nombre: 'Chocoretas', precio: 10 },
-    { id: 'top-kranky', nombre: 'Kranky', precio: 10 },
-    { id: 'top-chispas-choco', nombre: 'Chispas de Chocolate', precio: 10 },
-    { id: 'top-chispas-colores', nombre: 'Chispas de Colores', precio: 10 },
+  toppingMilk: any[] = [
+    { id: 'top-tapioca', nombre: 'Tapioca', precio: 10 }
   ];
 
   // Categorías que tienen toppings (comparación en minúsculas)
   categoriaConToppings(categoriaOriginal: string): any[] {
     const cat = (categoriaOriginal || '').toLowerCase();
-    if (cat.includes('soda italiana')) return this.toppingSodaItaliana;
-    if (cat.includes('paletas cubiertas')) return this.toppingPaletasCubiertas;
+    
+    // Paletas Cubiertas (El producto es la cobertura, el extra es el sabor)
+    if (cat.includes('paletas cubiertas')) return this.saboresPaletasCubiertas;
+
+    // Milk (Agrega tapioca solo sábados y domingos)
+    if (cat.includes('milk')) {
+      const day = new Date().getDay();
+      if (day === 0 || day === 6) { // 0 = Domingo, 6 = Sábado
+        return this.toppingMilk;
+      }
+    }
+
     return [];
   }
 
@@ -209,7 +216,15 @@ export class App implements OnInit {
   }
 
   toggleTopping(topping: any) {
+    const prod = this.productoPersonalizando();
+    const esPaletaCubierta = prod && (prod.categoriaOriginal || prod.categoria || '').toLowerCase().includes('paletas cubiertas');
+
     this.toppingsElegidos.update(elegidos => {
+      // Si es una paleta cubierta, el selector funciona como "radio button" (solo 1 sabor)
+      if (esPaletaCubierta) {
+        return [topping];
+      }
+
       const existe = elegidos.findIndex(t => t.id === topping.id);
       if (existe !== -1) {
         return elegidos.filter(t => t.id !== topping.id);
@@ -225,6 +240,13 @@ export class App implements OnInit {
 
     const toppings = this.toppingsElegidos();
     const catOriginal = prodBase.categoriaOriginal || prodBase.categoria;
+    const catLower = (catOriginal || '').toLowerCase();
+    
+    // Validar que se elija un sabor para paleta cubierta obligatoriamente
+    if (catLower.includes('paletas cubiertas') && toppings.length === 0) {
+      alert('Por favor, elige primero el sabor de la paleta que deseas cubrir.');
+      return;
+    }
     
     // Si no hay toppings, usa el ID normal. Si hay, crea un ID compuesto único para esta combinación.
     let configId = prodBase.id;
@@ -232,12 +254,17 @@ export class App implements OnInit {
     let sumaPrecioExtra = 0;
 
     if (toppings.length > 0) {
-      // Ordenamos para que Gomitas+Choco sea igual que Choco+Gomitas
+      // Ordenamos para generar un ID único
       const idsOrdenados = toppings.map(t => t.id).sort();
       configId = `${prodBase.id}-${idsOrdenados.join('-')}`;
       
-      const nombresToppings = toppings.map(t => t.nombre).join(', ');
-      nombreCambiado = `${catOriginal} de ${prodBase.nombre} (+${nombresToppings})`;
+      const nombresExtras = toppings.map(t => t.nombre).join(', ');
+      
+      if (catLower.includes('paletas cubiertas')) {
+        nombreCambiado = `Paleta Cubierta de ${nombresExtras} (Con: ${prodBase.nombre})`;
+      } else {
+        nombreCambiado = `${catOriginal} de ${prodBase.nombre} (+${nombresExtras})`;
+      }
       
       sumaPrecioExtra = toppings.reduce((acc, t) => acc + t.precio, 0);
     }
@@ -1026,7 +1053,7 @@ export class App implements OnInit {
       // Guardamos la categoría original antes de unificar
       const categoriaOriginal = producto.categoria;
 
-      const categoriasParaUnir = ['Helado', 'Paletas Cubiertas', 'Gomipaletas', 'Paletas'];
+      const categoriasParaUnir = ['Helado', 'Gomipaletas', 'Paletas'];
       if (categoriasParaUnir.includes(producto.categoria)) {
         productosNormales.push({ ...producto, categoriaOriginal, categoria: 'Helados y Paletas' });
       } else {

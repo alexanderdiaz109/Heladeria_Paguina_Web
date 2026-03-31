@@ -850,16 +850,26 @@
 
     @if (toppingsDelProducto().length > 0) {
     <div class="toppings-seccion">
-      <p class="titulo-toppings">¿Deseas agregar Toppings?</p>
-      <small class="sub-toppings">Selecciona los extras que quieras 😋</small>
+      @if ((productoPersonalizando().categoriaOriginal || productoPersonalizando().categoria || '').toLowerCase().includes('paletas cubiertas')) {
+        <p class="titulo-toppings">Elige el Sabor de tu Paleta</p>
+        <small class="sub-toppings">¿Qué paleta irá dentro de tu cobertura? 👇</small>
+      } @else {
+        <p class="titulo-toppings">¿Deseas agregar Toppings?</p>
+        <small class="sub-toppings">Selecciona los extras que quieras 😋</small>
+      }
 
       <div class="toppings-list">
         @for (topping of toppingsDelProducto(); track topping.id) {
         <label class="topping-item" [class.seleccionado]="toppingsElegidos().includes(topping)">
-          <input type="checkbox" [checked]="toppingsElegidos().includes(topping)" (change)="toggleTopping(topping)">
+          <input type="{{ (productoPersonalizando().categoriaOriginal || productoPersonalizando().categoria || '').toLowerCase().includes('paletas cubiertas') ? 'radio' : 'checkbox' }}" 
+                 [checked]="toppingsElegidos().includes(topping)" (change)="toggleTopping(topping)" name="saborPaletaGroup">
           <div class="topping-info">
             <span class="topping-nombre">{{ topping.nombre }}</span>
-            <span class="topping-precio">+${{ topping.precio }}</span>
+            @if (topping.precio > 0) {
+              <span class="topping-precio">+${{ topping.precio }}</span>
+            } @else {
+              <span class="topping-precio" style="color: #666; font-size: 0.8rem; font-weight: 500;">Incluido</span>
+            }
           </div>
         </label>
         }
