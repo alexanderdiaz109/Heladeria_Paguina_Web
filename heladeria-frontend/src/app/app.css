@@ -113,11 +113,17 @@ body {
   border-bottom: 2px solid #ffdce5;
   box-shadow: 0 2px 20px rgba(216,27,96,0.1);
   position: relative; /* Para que el dropdown absoluto se posicione desde el borde inferior si fuera el caso, aunque en navbar-admin fixed es otra cosa */
+  flex-wrap: nowrap; /* Mantener logo e iconos admin en 1 misma línea en móvil */
+  padding: 10px 15px; /* Reducido levemente el padding para dar espacio a botones extras si el cel es muy angosto */
 }
 /* Asegurar z-index en header para que el menu dropdown quede arriba */
 .navbar { position: sticky; top: 0; z-index: 999; }
 
-.navbar-admin .logo-container h1 { color: #d81b60; }
+.navbar-admin .logo-container h1 { 
+  color: #d81b60; 
+  font-size: clamp(1rem, 5vw, 1.35rem); /* Reduce el tamaño en pantallas muy chicas para que quepa bien el hamburger */
+  white-space: nowrap;
+}
 
 /* Hamburger Button */
 .btn-hamburger {
