@@ -678,20 +678,10 @@ export class App implements OnInit {
   cantidadCarrito = computed(() => this.carrito().reduce((total, item) => total + item.cantidad, 0));
   totalCarrito = computed(() => this.carrito().reduce((total, item) => total + (item.precio * item.cantidad), 0));
 
-  // === NUEVA VALIDACIÓN DE HORARIO (6:30 PM - 11:00 PM) ===
+  // === HORARIO TEMPORAL: ABIERTO TODO EL DÍA PARA PRUEBAS ===
+  // ⚠️ RESTAURAR: momentoApertura = (18*60)+30, momentoCierre = (23*60)
   estaAbierta = computed(() => {
-    const ahora = new Date();
-    const hora = ahora.getHours();
-    const minutos = ahora.getMinutes();
-    
-    // Convertimos todo a minutos totales del día para comparar fácil
-    // 6:30 PM es (18 * 60) + 30 = 1110 minutos
-    // 11:00 PM es (23 * 60) = 1380 minutos
-    const momentoActual = (hora * 60) + minutos;
-    const momentoApertura = (18 * 60) + 30;
-    const momentoCierre = (23 * 60);
-    
-    return momentoActual >= momentoApertura && momentoActual < momentoCierre;
+    return true; // MODO PRUEBAS: siempre abierto
   });
 
   // === MODO DE PEDIDO ===
