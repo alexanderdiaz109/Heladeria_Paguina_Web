@@ -160,6 +160,13 @@ export class App implements OnInit {
     { id: 'top-tapioca', nombre: 'Tapioca', precio: 10 }
   ];
 
+  toppingFrappeYogur: any[] = [
+    { id: 'top-fresa', nombre: 'Fresa', precio: 10 },
+    { id: 'top-blueberry', nombre: 'Blueberry', precio: 10 },
+    { id: 'top-mango', nombre: 'Mango', precio: 10 },
+    { id: 'top-kiwi', nombre: 'Kiwi', precio: 10 },
+  ];
+
   // Categorías que tienen toppings (comparación en minúsculas)
   categoriaConToppings(categoriaOriginal: string): any[] {
     const cat = (categoriaOriginal || '').toLowerCase();
@@ -173,6 +180,11 @@ export class App implements OnInit {
       if (day === 0 || day === 6) { // 0 = Domingo, 6 = Sábado
         return this.toppingMilk;
       }
+    }
+
+    // Frappé Yogur (Toppings de fruta)
+    if (cat.includes('frappe yogur') || cat.includes('frappé yogur')) {
+      return this.toppingFrappeYogur;
     }
 
     return [];
