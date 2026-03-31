@@ -16,11 +16,132 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 })
 export class App implements OnInit {
   // === CONTROL DE VISTAS (PÁGINAS) ===
-  vistaActiva = signal<'inicio' | 'menu' | 'admin' | 'galeria'>('inicio');
+  vistaActiva = signal<'inicio' | 'menu' | 'admin' | 'galeria' | 'ticket'>('inicio');
 
   cambiarVista(nuevaVista: 'inicio' | 'menu' | 'galeria') {
     this.vistaActiva.set(nuevaVista);
     window.scrollTo(0, 0); // Sube la pantalla hasta arriba al cambiar de vista
+  }
+
+  // === TICKET VIRTUAL (RASTREO EN TIEMPO REAL) ===
+  pedidoActivo = signal<any | null>(null);
+  ticketCargando = signal<boolean>(true);
+  ticketError = signal<string>('');
+  realtimeTicket: any = null;
+
+  async cargarTicket(id: string) {
+    this.ticketCargando.set(true);
+    this.ticketError.set('');
+    const { data, error } = await supabase
+      .from('pedidos')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !data) {
+      this.ticketError.set('No se encontró el pedido. Puede que haya expirado.');
+      this.ticketCargando.set(false);
+      return;
+    }
+    this.pedidoActivo.set(data);
+    this.ticketCargando.set(false);
+    this.iniciarRealtimeTicket(id);
+  }
+
+  iniciarRealtimeTicket(id: string) {
+    if (this.realtimeTicket) {
+      this.realtimeTicket.unsubscribe();
+    }
+    this.realtimeTicket = supabase
+      .channel(`ticket-pedido-${id}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'pedidos', filter: `id=eq.${id}` },
+        (payload) => {
+          console.log('📡 Ticket actualizado en tiempo real:', payload.new);
+          this.pedidoActivo.set(payload.new);
+
+          // Si el estado es finalizado o rechazado, limpiar localStorage
+          const nuevoEstado = payload.new['estado'];
+          if (nuevoEstado === 'finalizado' || nuevoEstado === 'rechazado') {
+            localStorage.removeItem('pedido_activo_heladeria');
+          }
+        }
+      )
+      .subscribe();
+  }
+
+  detenerRealtimeTicket() {
+    if (this.realtimeTicket) {
+      this.realtimeTicket.unsubscribe();
+      this.realtimeTicket = null;
+    }
+  }
+
+  volverDesdeTicket() {
+    this.detenerRealtimeTicket();
+    localStorage.removeItem('pedido_activo_heladeria');
+    this.pedidoActivo.set(null);
+    this.cambiarVista('inicio');
+  }
+
+  // === ADMIN: GESTIÓN DE PEDIDOS DE HOY (NUEVO FLUJO) ===
+  tiempoEsperaSeleccionado = signal<number>(15);
+
+  async aceptarPedidoHoy(pedido: any, minutos: number) {
+    const { data: updatedRows, error } = await supabase
+      .from('pedidos')
+      .update({ estado: 'preparando', tiempo_espera: minutos })
+      .eq('id', pedido.id)
+      .select();
+
+    if (error || !updatedRows?.length) {
+      alert('Error al actualizar el pedido. Verifica las políticas RLS en Supabase.');
+      return;
+    }
+    await this.cargarPedidos(true);
+  }
+
+  async rechazarPedidoHoy(pedido: any) {
+    const { data: updatedRows, error } = await supabase
+      .from('pedidos')
+      .update({ estado: 'rechazado' })
+      .eq('id', pedido.id)
+      .select();
+
+    if (error || !updatedRows?.length) {
+      alert('Error al rechazar el pedido. Verifica las políticas RLS en Supabase.');
+      return;
+    }
+    await this.cargarPedidos(true);
+  }
+
+  async marcarListo(pedido: any) {
+    const { data: updatedRows, error } = await supabase
+      .from('pedidos')
+      .update({ estado: 'listo' })
+      .eq('id', pedido.id)
+      .select();
+
+    if (error || !updatedRows?.length) {
+      alert('Error al marcar como listo. Verifica las políticas RLS en Supabase.');
+      return;
+    }
+    await this.cargarPedidos(true);
+  }
+
+  async marcarFinalizado(pedido: any) {
+    const { data: updatedRows, error } = await supabase
+      .from('pedidos')
+      .update({ estado: 'finalizado' })
+      .eq('id', pedido.id)
+      .select();
+
+    if (error || !updatedRows?.length) {
+      alert('Error al finalizar el pedido. Verifica las políticas RLS en Supabase.');
+      return;
+    }
+    await this.cargarPedidos(true);
   }
 
   todoLosProductos = signal<any[]>([]);
@@ -786,35 +907,53 @@ export class App implements OnInit {
     // 3. ¿QUÉ HACEMOS DESPUÉS DE GUARDAR?
     if (this.esPedidoAgendado()) {
       // === RUTA 100% WEB (PARA AGENDAS) ===
+      this.carrito.set([]);
+      this.cerrarCarrito();
       this.mostrarExitoModal.set(true);
 
     } else {
-      // === RUTA WHATSAPP (SOLO PARA "HOY" POR INMEDIATEZ) ===
-      let mensaje = `¡Hola Heladería_Libertad! 🍦 Soy *${this.nombreCliente() || 'un cliente'}*.\n`;
-      mensaje += `Acabo de registrar en el sistema el siguiente pedido para *pasar HOY*:\n\n`;
+      // === RUTA TICKET VIRTUAL (PARA "HOY") ===
+      // Obtenemos el ID del pedido recién creado
+      const { data: pedidoCreado } = await supabase
+        .from('pedidos')
+        .select('id')
+        .eq('cliente_nombre', this.nombreCliente() || 'Cliente Sin Nombre')
+        .eq('tipo_pedido', 'hoy')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
 
-      this.carrito().forEach(item => {
-        mensaje += `- ${item.cantidad}x ${item.nombre} ($${item.precio * item.cantidad})\n`;
-      });
+      const pedidoId = pedidoCreado?.id;
 
-      mensaje += `\n*Total a pagar: $${this.totalCarrito()}*\n\n`;
-      mensaje += `¿En cuánto tiempo puedo pasar por él? 🛵`;
+      // Guardar en localStorage como respaldo
+      if (pedidoId) {
+        localStorage.setItem('pedido_activo_heladeria', pedidoId);
+      }
 
-      const mensajeCodificado = encodeURIComponent(mensaje);
-      const numeroWhatsApp = '529994332865';
-      window.open(`https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`, '_blank');
+      // Limpiar carrito
+      this.carrito.set([]);
+      this.cerrarCarrito();
+
+      // Navegar al Ticket Virtual
+      if (pedidoId) {
+        await this.cargarTicket(pedidoId);
+      }
+      this.vistaActiva.set('ticket');
+      window.scrollTo(0, 0);
     }
-
-    // 4. Limpieza: Vaciamos el carrito, cerramos ventana y volvemos al inicio
-    this.carrito.set([]);
-    this.cerrarCarrito();
-    this.cambiarVista('inicio');
   }
 
   ngOnInit() {
     // Si la URL termina en /admin, forzamos la vista del administrador
     if (window.location.pathname === '/admin') {
       this.vistaActiva.set('admin');
+    }
+
+    // Si hay un ticket activo en localStorage, recuperarlo
+    const ticketGuardado = localStorage.getItem('pedido_activo_heladeria');
+    if (ticketGuardado && window.location.pathname !== '/admin') {
+      this.vistaActiva.set('ticket');
+      this.cargarTicket(ticketGuardado);
     }
 
     // Cargamos todo para el menú público y el calendario

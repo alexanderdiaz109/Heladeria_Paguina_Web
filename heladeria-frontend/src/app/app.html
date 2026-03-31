@@ -255,6 +255,133 @@
 </section>
 }
 
+@if (vistaActiva() === 'ticket') {
+<section class="ticket-section">
+  <div class="ticket-container">
+
+    @if (ticketCargando()) {
+    <div class="ticket-loading">
+      <div class="spinner-heladeria">🍦</div>
+      <p>Conectando con la heladeria...</p>
+    </div>
+    }
+
+    @if (ticketError()) {
+    <div class="ticket-error-box">
+      <div class="exito-icono">⚠️</div>
+      <h3>Pedido no encontrado</h3>
+      <p>{{ ticketError() }}</p>
+      <button class="btn-primario" (click)="volverDesdeTicket()">Volver al Inicio</button>
+    </div>
+    }
+
+    @if (!ticketCargando() && !ticketError() && pedidoActivo()) {
+    <div class="ticket-card">
+
+      <!-- Header del Ticket -->
+      <div class="ticket-header-logo">
+        <img src="/fotos/logo.jpg" alt="Logo" class="ticket-logo" onerror="this.style.display='none'">
+        <div class="ticket-brand">
+          <h2>Heladería Libertad</h2>
+          <p class="ticket-subtitle">Tu Ticket de Pedido en Vivo</p>
+        </div>
+      </div>
+
+      <!-- Nombre Cliente -->
+      <div class="ticket-cliente">
+        <span class="ticket-saludo">👋 Hola, <strong>{{ pedidoActivo()?.cliente_nombre }}</strong></span>
+        <span class="ticket-id-badge"># {{ pedidoActivo()?.id?.substring(0, 8)?.toUpperCase() }}</span>
+      </div>
+
+      <!-- Estado: PENDIENTE -->
+      @if (pedidoActivo()?.estado === 'pendiente') {
+      <div class="ticket-estado-box estado-pendiente">
+        <div class="estado-icono-grande">⏳</div>
+        <h3 class="estado-titulo">Esperando confirmación...</h3>
+        <p class="estado-descripcion">La heladera ya recibió tu pedido. En cuanto lo confirmen, esta pantalla se actualizará sola. ¡No la cierres!</p>
+        <div class="ticket-pulse-bar"></div>
+      </div>
+      }
+
+      <!-- Estado: PREPARANDO -->
+      @if (pedidoActivo()?.estado === 'preparando') {
+      <div class="ticket-estado-box estado-preparando">
+        <div class="estado-icono-grande">👨‍🍳</div>
+        <h3 class="estado-titulo">¡Están preparando tu pedido!</h3>
+        <p class="estado-descripcion estado-tiempo">
+          ⏰ Estará listo en aproximadamente
+          <strong class="tiempo-highlight">{{ pedidoActivo()?.tiempo_espera }} minutos</strong>
+        </p>
+        <div class="progreso-bar">
+          <div class="progreso-fill preparando"></div>
+        </div>
+      </div>
+      }
+
+      <!-- Estado: LISTO -->
+      @if (pedidoActivo()?.estado === 'listo') {
+      <div class="ticket-estado-box estado-listo">
+        <div class="estado-icono-grande">🎉</div>
+        <h3 class="estado-titulo">¡Tu pedido está listo!</h3>
+        <p class="estado-descripcion">¡Pasa a recogerlo! Te esperamos en la heladería. 🥮🍦</p>
+        <div class="ticket-listo-badge">PASA A RECOGERLO</div>
+      </div>
+      }
+
+      <!-- Estado: FINALIZADO -->
+      @if (pedidoActivo()?.estado === 'finalizado') {
+      <div class="ticket-estado-box estado-finalizado">
+        <div class="estado-icono-grande">✅</div>
+        <h3 class="estado-titulo">¡Gracias por tu compra!</h3>
+        <p class="estado-descripcion">Esperamos que lo hayas disfrutado. ¡Te esperamos pronto! 😊🍦</p>
+        <button class="btn-primario" style="margin-top: 20px;" (click)="volverDesdeTicket()">Hacer otro pedido</button>
+      </div>
+      }
+
+      <!-- Estado: RECHAZADO -->
+      @if (pedidoActivo()?.estado === 'rechazado') {
+      <div class="ticket-estado-box estado-rechazado">
+        <div class="estado-icono-grande">😟</div>
+        <h3 class="estado-titulo">Pedido rechazado</h3>
+        <p class="estado-descripcion">Lo sentimos, el pedido fue rechazado por falta de ingredientes en este momento. Puedes llamarnos al <strong>999 433 2865</strong>.</p>
+        <button class="btn-rechazar" style="margin-top: 20px;" (click)="volverDesdeTicket()">Volver al Menú</button>
+      </div>
+      }
+
+      <!-- Resumen del pedido -->
+      <div class="ticket-resumen">
+        <h4>📝 Tu Pedido</h4>
+        @for (item of pedidoActivo()?.productos; track item.id) {
+        <div class="ticket-item-row">
+          <span>{{ item.cantidad }}x {{ item.nombre }}</span>
+          <span class="ticket-item-precio">${{ item.precio * item.cantidad }}</span>
+        </div>
+        }
+        <div class="ticket-total-row">
+          <strong>Total</strong>
+          <strong class="ticket-total-monto">${{ pedidoActivo()?.total }}</strong>
+        </div>
+      </div>
+
+      <!-- Footer del ticket -->
+      <div class="ticket-footer-nota">
+        <span class="realtime-dot"></span>
+        <small>Esta página se actualiza en tiempo real automáticamente</small>
+      </div>
+
+      @if (pedidoActivo()?.estado !== 'finalizado' && pedidoActivo()?.estado !== 'rechazado') {
+      <button class="btn-cancelar-ticket" (click)="volverDesdeTicket()">
+        Cancelar y Volver al Inicio
+      </button>
+      }
+
+    </div>
+    }
+
+  </div>
+</section>
+}
+
 @if (vistaActiva() === 'admin') {
 <section class="admin-section">
 
@@ -342,7 +469,7 @@
 
       <div class="pedidos-grid">
         @for (pedido of pedidosVisibles(); track pedido.id) {
-        <div class="pedido-card estatus-{{ pedido.estatus }}">
+        <div class="pedido-card estatus-{{ pedido.estatus }} estado-{{ pedido.estado }}">
           <div class="pedido-header">
             <h3>{{ pedido.cliente_nombre }}</h3>
             <span class="badge {{ pedido.tipo_pedido }}">{{ pedido.tipo_pedido | uppercase }}</span>
@@ -365,6 +492,10 @@
             <span class="estatus-label">{{ pedido.estatus | uppercase }}</span>
           </div>
 
+          <!-- =============================================== -->
+          <!-- ACCIONES: FLUJO PARA PEDIDOS AGENDADOS (viejo) -->
+          <!-- =============================================== -->
+          @if (pedido.tipo_pedido !== 'hoy') {
           <div class="pedido-acciones">
             @if (pedido.estatus === 'pendiente') {
             <button class="btn-aceptar" (click)="cambiarEstatusPedido(pedido, 'aceptado', false)">📅 Anotar en
@@ -386,6 +517,52 @@
             <p class="texto-entregado">Pedido finalizado con éxito 🎉.</p>
             }
           </div>
+          }
+
+          <!-- ============================================== -->
+          <!-- ACCIONES: FLUJO PARA PEDIDOS DE HOY (NUEVO)   -->
+          <!-- ============================================== -->
+          @if (pedido.tipo_pedido === 'hoy') {
+          <div class="pedido-acciones pedido-acciones-hoy">
+
+            <!-- ESTADO: PENDIENTE → Aceptar con tiempo o Rechazar -->
+            @if (!pedido.estado || pedido.estado === 'pendiente') {
+            <p class="admin-estado-label">⏳ Pendiente de confirmación</p>
+            <div class="admin-tiempo-btns">
+              <span class="admin-tiempo-label">Aceptar y asignar tiempo:</span>
+              <button class="btn-tiempo btn-10" (click)="aceptarPedidoHoy(pedido, 10)">✅ 10 min</button>
+              <button class="btn-tiempo btn-15" (click)="aceptarPedidoHoy(pedido, 15)">✅ 15 min</button>
+              <button class="btn-tiempo btn-20" (click)="aceptarPedidoHoy(pedido, 20)">✅ 20 min</button>
+              <button class="btn-tiempo btn-30" (click)="aceptarPedidoHoy(pedido, 30)">✅ 30 min</button>
+            </div>
+            <button class="btn-rechazar btn-rechazar-hoy" (click)="rechazarPedidoHoy(pedido)">❌ Rechazar Pedido</button>
+            }
+
+            <!-- ESTADO: PREPARANDO → Marcar como Listo -->
+            @if (pedido.estado === 'preparando') {
+            <p class="admin-estado-label admin-estado-preparando">👨‍🍳 Preparándose... ({{ pedido.tiempo_espera }} min)</p>
+            <button class="btn-listo" (click)="marcarListo(pedido)">🔔 Marcar como LISTO</button>
+            }
+
+            <!-- ESTADO: LISTO → Marcar como Finalizado -->
+            @if (pedido.estado === 'listo') {
+            <p class="admin-estado-label admin-estado-listo">🎉 ¡Listo para recoger!</p>
+            <button class="btn-finalizar" (click)="marcarFinalizado(pedido)">✅ Marcar Finalizado / Entregado</button>
+            }
+
+            <!-- ESTADO: FINALIZADO -->
+            @if (pedido.estado === 'finalizado') {
+            <p class="texto-entregado">✅ Pedido entregado con éxito 🎉</p>
+            }
+
+            <!-- ESTADO: RECHAZADO -->
+            @if (pedido.estado === 'rechazado') {
+            <p class="texto-rechazado">❌ Pedido rechazado.</p>
+            }
+
+          </div>
+          }
+
         </div>
         }
         @empty {
