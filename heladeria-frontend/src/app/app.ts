@@ -167,6 +167,10 @@ export class App implements OnInit {
     { id: 'top-kiwi', nombre: 'Kiwi', precio: 15 },
   ];
 
+  toppingFrappeCasa: any[] = [
+    { id: 'top-tapioca-frappe', nombre: 'Tapioca', precio: 15 }
+  ];
+
   // Categorías que tienen toppings (comparación en minúsculas)
   categoriaConToppings(categoriaOriginal: string): any[] {
     const cat = (categoriaOriginal || '').toLowerCase();
@@ -185,6 +189,11 @@ export class App implements OnInit {
     // Frappé Yogur (Toppings de fruta)
     if (cat.includes('frappe yogur') || cat.includes('frappé yogur')) {
       return this.toppingFrappeYogur;
+    }
+
+    // Frappés de Casa (Tapioca opcional)
+    if (cat.includes('frappe casa')) {
+      return this.toppingFrappeCasa;
     }
 
     return [];
