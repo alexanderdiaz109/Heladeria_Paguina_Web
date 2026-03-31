@@ -101,24 +101,124 @@ body {
   background-color: #c2185b; /* Si un CTA está activo, mantenemos su identidad colorada oscureciendola */
 }
 
-/* Admin badge in navbar */
-.admin-badge {
-  background: linear-gradient(135deg, #ffdce5, #f8bbd0);
-  color: #d81b60;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(216,27,96,0.3);
-  box-shadow: 0 2px 10px rgba(216,27,96,0.15);
+/* Admin Top Menu in Navbar */
+.admin-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
+
 .navbar-admin {
   background: #fff;
   border-bottom: 2px solid #ffdce5;
   box-shadow: 0 2px 20px rgba(216,27,96,0.1);
+  position: relative; /* Para que el dropdown absoluto se posicione desde el borde inferior si fuera el caso, aunque en navbar-admin fixed es otra cosa */
 }
+/* Asegurar z-index en header para que el menu dropdown quede arriba */
+.navbar { position: sticky; top: 0; z-index: 999; }
+
 .navbar-admin .logo-container h1 { color: #d81b60; }
+
+/* Hamburger Button */
+.btn-hamburger {
+  background: #fff0f3;
+  border: 1.5px solid #ffdce5;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+.btn-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #d81b60;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+.btn-hamburger:hover {
+  background: #fce4ec;
+  border-color: #f48fb1;
+}
+.btn-hamburger.abierto span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.btn-hamburger.abierto span:nth-child(2) { opacity: 0; }
+.btn-hamburger.abierto span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Dropdown Menu Admin */
+.admin-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 15px;
+  margin-top: 5px;
+  background: white;
+  border: 1px solid #ffdce5;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(216,27,96,0.15);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 220px;
+  animation: dropSlide 0.2s ease;
+  z-index: 1000;
+}
+@keyframes dropSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-dropdown-menu .menu-item {
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+}
+.admin-dropdown-menu .menu-item:hover {
+  background: #fff8fa;
+  color: #d81b60;
+}
+.admin-dropdown-menu .menu-item.activo {
+  background: linear-gradient(135deg, #d81b60, #e91e63);
+  color: white;
+  font-weight: 800;
+  box-shadow: 0 4px 15px rgba(216,27,96,0.3);
+}
+
+.admin-dropdown-menu .tab-icon {
+  font-size: 1.15rem;
+}
+
+.menu-divider {
+  height: 1px;
+  background: #ffe3e9;
+  margin: 6px 0;
+}
+
+.btn-salir-rojo {
+  color: #d32f2f !important;
+}
+.btn-salir-rojo:hover {
+  background: #ffebee !important;
+  color: #b71c1c !important;
+}
 
 /* --- Apartado 2: Hero Section (Banner) - DISEÑO IMPACTANTE --- */
 .hero-section {

@@ -11,10 +11,39 @@
       Pedido</a>
   </nav>
   }
-  @if (vistaActiva() === 'admin') {
-  <div class="admin-badge">
-    <span>👑 Modo Administrador</span>
+  @if (vistaActiva() === 'admin' && estaAutenticadoAdmin()) {
+  <div class="admin-top-controls">
+    <button class="btn-hamburger" (click)="toggleMenuAdmin()" [class.abierto]="menuAdminAbierto()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  
+  @if (menuAdminAbierto()) {
+  <div class="admin-dropdown-menu">
+    <button class="menu-item" [class.activo]="adminTab() === 'pedidos'" (click)="setAdminTabYCerrar('pedidos')">
+      <span class="tab-icon">📦</span> Pedidos
+    </button>
+    <button class="menu-item" [class.activo]="adminTab() === 'productos'" (click)="setAdminTabYCerrar('productos')">
+      <span class="tab-icon">🍦</span> Productos
+    </button>
+    <button class="menu-item" [class.activo]="adminTab() === 'agenda'" (click)="setAdminTabYCerrar('agenda')">
+      <span class="tab-icon">📅</span> Agenda
+    </button>
+    <button class="menu-item" [class.activo]="adminTab() === 'galeria'" (click)="setAdminTabYCerrar('galeria')">
+      <span class="tab-icon">📸</span> Galería
+    </button>
+    <div class="menu-divider"></div>
+    <button class="menu-item" (click)="refrescarTodoManual()">
+      <span class="tab-icon">🔄</span> Refrescar Datos
+    </button>
+    <button class="menu-item" (click)="toggleAutoRefresh()" [class.auto-on]="autoRefreshOn()">
+      <span class="tab-icon">{{ autoRefreshOn() ? '⏱️' : '⏸️' }}</span> {{ autoRefreshOn() ? 'Auto ON' : 'Auto OFF' }}
+    </button>
+    <button class="menu-item btn-salir-rojo" (click)="cerrarSesionAdmin(); toggleMenuAdmin()">
+      🚪 Salir del Panel
+    </button>
+  </div>
+  }
   }
 </header>
 
@@ -409,43 +438,7 @@
   @else {
   <div class="dashboard-admin">
 
-    <div class="admin-nav">
-      <!-- Barra superior inline -->
-      <div class="admin-nav-inline">
-        <div class="admin-nav-brand">
-          <span class="admin-crown">👑</span>
-          <div>
-            <h2>Panel de Control</h2>
-            <small>Heladería Libertad</small>
-          </div>
-        </div>
 
-        <div class="admin-actions-top">
-          <button class="btn-refrescar-icon" (click)="refrescarTodoManual()" title="Actualizar Datos">🔄</button>
-          <button class="btn-refrescar-icon" (click)="toggleAutoRefresh()" [class.auto-on]="autoRefreshOn()"
-            [title]="autoRefreshOn() ? 'Desactivar auto' : 'Activar auto'">
-            {{ autoRefreshOn() ? '⏱️' : '⏸️' }}
-          </button>
-          <button class="btn-cerrar-sesion" (click)="cerrarSesionAdmin()">🚪 Salir</button>
-        </div>
-      </div>
-
-      <!-- Pestañas horizontales -->
-      <div class="admin-tabs-scroll">
-        <button [class.activo]="adminTab() === 'pedidos'" (click)="setAdminTab('pedidos')">
-          <span class="tab-icon">📦</span> Pedidos
-        </button>
-        <button [class.activo]="adminTab() === 'productos'" (click)="setAdminTab('productos')">
-          <span class="tab-icon">🍦</span> Productos
-        </button>
-        <button [class.activo]="adminTab() === 'agenda'" (click)="setAdminTab('agenda')">
-          <span class="tab-icon">📅</span> Agenda
-        </button>
-        <button [class.activo]="adminTab() === 'galeria'" (click)="setAdminTab('galeria')">
-          <span class="tab-icon">📸</span> Galería
-        </button>
-      </div>
-    </div>
 
     <div class="admin-content">
 
