@@ -150,11 +150,10 @@ export class App implements OnInit {
   saboresPaletasCubiertas: any[] = [
     { id: 'sabor-arroz', nombre: 'Arroz', precio: 0 },
     { id: 'sabor-cacahuate', nombre: 'Cacahuate', precio: 0 },
+    { id: 'sabor-chocolate', nombre: 'Chocolate', precio: 0 },
     { id: 'sabor-coco', nombre: 'Coco', precio: 0 },
-    { id: 'sabor-limon', nombre: 'Limón', precio: 0 },
-    { id: 'sabor-mango', nombre: 'Mango Piña', precio: 0 },
-    { id: 'sabor-sandia', nombre: 'Sandía', precio: 0 },
-    { id: 'sabor-uva', nombre: 'Uva', precio: 0 },
+    { id: 'sabor-oreo', nombre: 'Oreo', precio: 0 },
+    { id: 'sabor-vainilla', nombre: 'Vainilla', precio: 0 },
   ];
 
   toppingMilk: any[] = [
