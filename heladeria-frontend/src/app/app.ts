@@ -157,14 +157,14 @@ export class App implements OnInit {
   ];
 
   toppingMilk: any[] = [
-    { id: 'top-tapioca', nombre: 'Tapioca', precio: 10 }
+    { id: 'top-tapioca', nombre: 'Tapioca', precio: 15 }
   ];
 
   toppingFrappeYogur: any[] = [
-    { id: 'top-fresa', nombre: 'Fresa', precio: 10 },
-    { id: 'top-blueberry', nombre: 'Blueberry', precio: 10 },
-    { id: 'top-mango', nombre: 'Mango', precio: 10 },
-    { id: 'top-kiwi', nombre: 'Kiwi', precio: 10 },
+    { id: 'top-fresa', nombre: 'Fresa', precio: 15 },
+    { id: 'top-blueberry', nombre: 'Blueberry', precio: 15 },
+    { id: 'top-mango', nombre: 'Mango', precio: 15 },
+    { id: 'top-kiwi', nombre: 'Kiwi', precio: 15 },
   ];
 
   // Categorías que tienen toppings (comparación en minúsculas)
